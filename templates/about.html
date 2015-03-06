@@ -1,0 +1,40 @@
+{% extends "layout.html" %}
+{% set active_page = "about" %}
+{% block content %}
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            <h1 class="panel-title">About</h1>
+        </div>
+        <div class="panel-body">
+            <p>
+                TL;DR Summarizer is a simple single-page web app developed using the
+                <a href="http://flask.pocoo.org/">Flask framework</a> that performs automatic summarization
+                of text and web pages.
+            </p>
+
+            <p>
+                The app showcases some of the basic capability of the
+                <a href="https://github.com/jaijuneja/PyTLDR">PyTLDR module</a> for Python, which is available
+                as open source. It offers three distinct summarization algorithms based on academic research
+                from the past decade. You can read more about these algorithms and their implementation
+                <a href="https://github.com/jaijuneja/PyTLDR">here</a>.
+            </p>
+
+            <p>
+                You can vew some of my other projects <a href="https://www.jaijuneja.com/blog/projects">here</a>.
+            </p>
+        </div>
+    </div>
+
+    {% if summary %}
+        <div class="well">
+                <h3>Summary</h3>
+                <ul class=summary>
+                {% for sentence in summary %}
+                    <li>{{ sentence }}</li>
+                {% endfor %}
+                </ul>
+        </div>
+    {% endif %}
+
+{% endblock %}

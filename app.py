@@ -42,6 +42,11 @@ def home():
     )
 
 
+@app.route('/about/')
+def about():
+    return render_template('about.html')
+
+
 def validate_input(form):
     return [field for field, val in form.items() if not val]
 
