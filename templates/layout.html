@@ -44,12 +44,14 @@
 
         {% block content %}{% endblock %}
     </div>
-    <footer class="footer">
-      <div class="container">
-        <p class="text-muted">Developed by <a href="http://www.jaijuneja.com">Jai Juneja</a></p>
-      </div>
-    </footer>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-<script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.min.js') }}" ></script>
+
+{#    <footer class="footer">#}
+{#      <div class="container">#}
+{#        <p class="text-muted">Developed by <a href="http://www.jaijuneja.com">Jai Juneja</a></p>#}
+{#      </div>#}
+{#    </footer>#}
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.min.js') }}" ></script>
 </body>
 </html>
