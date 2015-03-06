@@ -1,0 +1,3 @@
+Flask==0.10.1
+PyTLDR==0.1.1
+gunicorn==0.17.2

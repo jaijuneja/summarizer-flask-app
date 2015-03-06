@@ -1,0 +1,47 @@
+{% extends "layout.html" %}
+{% set active_page = "home" %}
+{% block content %}
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            <h1 class="panel-title">Automatic Text Summarizer <small>by Jai Juneja</small></h1>
+        </div>
+        <div class="panel-body">
+            {% if error %}
+                <div class="alert alert-danger" role="alert">{{ error }}</div>
+            {% endif %}
+            <form action="" method=post>
+                <div class="form-group">
+                    <label for="input-text">Text or URL to summarize:</label>
+                    <textarea class="form-control" name=text id="input-text" rows="5">{{ request.form.text }}</textarea>
+                </div>
+                <div class="form-group">
+                    <label for="method-dropdown">Algorithm:</label>
+                    <select class="form-control" name=algorithm id="method-dropdown">
+                        {% for method in summary_methods %}
+                            <option name={{ method }} {% if method == request.form.algorithm %} SELECTED{% endif %}>
+                                {{ method }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="length">Length (# of sentences):</label>
+                    <input class="form-control" name=length value="{{ request.form.length }}" id="length">
+                </div>
+                <button class="btn btn-default" type=submit value=Summarize>Submit</button>
+            </form>
+        </div>
+    </div>
+
+    {% if summary %}
+        <div class="well">
+                <h3>Summary</h3>
+                <ul class=summary>
+                {% for sentence in summary %}
+                    <li>{{ sentence }}</li>
+                {% endfor %}
+                </ul>
+        </div>
+    {% endif %}
+
+{% endblock %}

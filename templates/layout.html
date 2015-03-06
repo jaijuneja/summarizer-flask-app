@@ -1,0 +1,53 @@
+{% set navigation_bar = [
+    ('/', 'home', 'Home'),
+    ('/about/', 'about', 'About'),
+    ('https://github.com/jaijuneja/PyTLDR', 'github', 'GitHub')
+] -%}
+{% set active_page = active_page|default('index') -%}
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>TL;DR Summarizer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/footer.css') }}">
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-default">
+          <div class="container-fluid">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              <a class="navbar-brand" href="/">TL;DR Summarizer</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+              <ul class="nav navbar-nav">
+                  {% for href, id, text in navigation_bar %}
+                      <li{% if id == active_page %} class="active"{% endif %}>
+                        <a href="{{ href|e }}">{{ text|e }}</a>
+                      </li>
+                  {% endfor %}
+              </ul>
+            </div><!-- /.navbar-collapse -->
+          </div><!-- /.container-fluid -->
+        </nav>
+    </header>
+
+    <div class="container">
+        {% block content %}{% endblock %}
+    </div>
+
+    <footer class="footer">
+      <div class="container">
+        <p class="text-muted">Developed by <a href="http://www.jaijuneja.com">Jai Juneja</a></p>
+      </div>
+    </footer>
+</body>
+</html>
