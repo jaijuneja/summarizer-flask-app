@@ -10,7 +10,7 @@
     <meta charset="UTF-8">
     <title>TL;DR Summarizer</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/footer.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 <body>
     <div class="container">
@@ -53,5 +53,8 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.min.js') }}" ></script>
+    {% if active_page == 'home' %}
+        <script type="text/javascript" src="{{ url_for('static', filename='js/home.js') }}" ></script>
+    {% endif %}
 </body>
 </html>

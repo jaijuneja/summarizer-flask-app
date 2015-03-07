@@ -28,19 +28,40 @@
                     <label for="length">Length (# of sentences):</label>
                     <input class="form-control" name=length value="{{ request.form.length }}" id="length">
                 </div>
-                <button class="btn btn-default" type=submit value=Summarize>Submit</button>
+                <button class="btn btn-info" type=submit value=Summarize>Submit</button>
             </form>
         </div>
     </div>
 
     {% if summary %}
-        <div class="well">
+        <div id="summary">
+            <div class="well">
                 <h3>Summary</h3>
-                <ul class=summary>
+                <ul class="summary-list">
                 {% for sentence in summary %}
                     <li>{{ sentence }}</li>
                 {% endfor %}
                 </ul>
+                {% if highlighted_text %}
+                    <button class="btn btn-info" onclick="toggleSummaryContext()">Show Context</button>
+                {% endif %}
+            </div>
+        </div>
+    {% endif %}
+
+    {% if highlighted_text %}
+        <div id="context">
+            <div class="well">
+                <button class="btn btn-info" onclick="toggleSummaryContext()">Show Summary</button>
+                <h3>Context of Summary</h3>
+                <p class="article">
+                    {% for sentence, highlight, paragraph in highlighted_text %}
+                        {% if highlight %}<mark><strong>{% endif %}{{ sentence | safe }}{% if highlight %}</strong></mark>{% endif %}
+                        {% if paragraph %}<br><br>{% endif %}
+                    {% endfor %}
+                </p>
+                <button class="btn btn-info" onclick="toggleSummaryContext()">Show Summary</button>
+            </div>
         </div>
     {% endif %}
 
