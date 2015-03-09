@@ -1,0 +1,39 @@
+{% extends "layout.html" %}
+{% set active_page = "quickipedia" %}
+
+{% block content %}
+
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            <h1 class="panel-title">Quickipedia: Wikipedia on a Deadline</h1>
+        </div>
+        <div class="panel-body">
+            {% if error %}
+                <div class="alert alert-danger" role="alert">{{ error }}</div>
+            {% endif %}
+            <form action="" method=post>
+                {{ form.hidden_tag() }}
+                <div class="form-group">
+                    {{ form.search.label }}
+                    {{ form.search(class_='form-control') }}
+                </div>
+                <div class="form-group">
+                    {{ form.algorithm.label }}
+                    {{ form.algorithm(class_='form-control') }}
+                </div>
+                <button class="btn btn-info" type=submit value="Search">Search</button>
+            </form>
+            {% if results %}
+                <div id="search-results">
+                    <h2>Search Results</h2>
+                    <div class="list-group-info">
+                        {% for result, url in results %}
+                            <a href="/quickipedia/{{ url }}/{{ algorithm }}" class="list-group-item">{{ result }}</a>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+{% endblock %}

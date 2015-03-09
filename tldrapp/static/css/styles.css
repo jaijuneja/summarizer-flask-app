@@ -38,6 +38,10 @@ body {
     color: #31708f;
 }
 
-#context {
-    display: none;
+.summary-container > div {
+    display:none;
+}
+
+.summary-container > div:first-child {
+    display:block;
 }

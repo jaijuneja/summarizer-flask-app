@@ -1,0 +1,11 @@
+<p class="article">
+    {% for text, highlight, paragraph in highlighted_text %}
+        {% set count = 1 %}
+        {% for line in text.splitlines() %}
+            {% if count != 1 %}<br>{% endif %}
+            {% if highlight %}<mark><strong>{% endif %}{{ line }}{% if highlight %}</strong></mark>{% endif %}
+            {% set count = count + 1 %}
+        {% endfor %}
+        {% if paragraph %}<br>{% endif %}
+    {% endfor %}
+</p>
