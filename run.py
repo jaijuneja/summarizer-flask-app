@@ -5,5 +5,5 @@ SECRET_KEY = 'you-will-never-guess-this'
 
 app.config.from_object(__name__)
 
-if name == "__main__":
+if __name__ == "__main__":
     app.run()
