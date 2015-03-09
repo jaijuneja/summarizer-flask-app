@@ -1,7 +1,7 @@
 Flask==0.10.1
 numpy==1.8.1
 scipy==0.14.0
-PyTLDR==0.1.2
+PyTLDR==0.1.4
 gunicorn==0.17.2
 wikipedia==1.4.0
 wtforms==2.0.2

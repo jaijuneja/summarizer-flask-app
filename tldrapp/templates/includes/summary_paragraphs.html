@@ -10,7 +10,7 @@
                 {%- if newline[0] -%}<br><br>{%- endif -%}
                 {%- set _ = newline.pop() -%}
                 {%- set _ = newline.append(0) -%}
-                {{ line }}
+                {{ line }}&nbsp;
             {%- endif -%}
         {%- endfor -%}
         {%- if paragraph and highlight -%}
