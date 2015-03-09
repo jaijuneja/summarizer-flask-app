@@ -1,0 +1,22 @@
+<p class="article">
+    {%- set newline = [0] -%}
+    {%- for text, highlight, paragraph in highlighted_text -%}
+        {%- for line in text.splitlines() -%}
+            {%- if line == '' -%}
+                {%- set _ = newline.pop() -%}
+                {%- set _ = newline.append(1) -%}
+            {%- endif -%}
+            {%- if highlight -%}
+                {%- if newline[0] -%}<br><br>{%- endif -%}
+                {%- set _ = newline.pop() -%}
+                {%- set _ = newline.append(0) -%}
+                {{ line }}
+            {%- endif -%}
+        {%- endfor -%}
+        {%- if paragraph and highlight -%}
+            {%- set _ = newline.pop() -%}
+            {%- set _ = newline.append(1) -%}
+            <br><br>
+        {%- endif -%}
+    {%- endfor -%}
+</p>

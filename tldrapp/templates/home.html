@@ -6,16 +6,7 @@
             <h1 class="panel-title">Automatic Text Summarizer <small>by Jai Juneja</small></h1>
         </div>
         <div class="panel-body">
-            {% if error %}
-                <div class="alert alert-danger" role="alert">
-                    <strong>Errors:</strong>
-                    <ul>
-                        {% for message in error %}
-                            <li>{{ message }}</li>
-                        {% endfor %}
-                    </ul>
-                </div>
-            {% endif %}
+            {% include 'includes/errors.html' %}
             <form action="" method=post>
                 {{ form.hidden_tag() }}
                 <div class="form-group">

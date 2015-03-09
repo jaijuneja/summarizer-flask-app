@@ -1,4 +1,16 @@
-var menu_elements = document.querySelectorAll('.summary-buttons>button'),
+// Close the collapsed menu by clicking outside of it
+$(document).ready(function () {
+    $(document).click(function (event) {
+        var clickover = $(event.target);
+        var _opened = $(".navbar-collapse").hasClass("navbar-collapse in");
+        if (_opened === true && !clickover.hasClass("navbar-toggle")) {
+            $("button.navbar-toggle").click();
+        }
+    });
+});
+
+// Settings for summary toggle button
+var menu_elements = document.querySelectorAll('.summary-buttons button'),
     menu_length = menu_elements.length;
 for (var i = 0; i < menu_length; i++) {
     menu_elements[i].addEventListener('click', function (e) {
@@ -10,6 +22,8 @@ for (var i = 0; i < menu_length; i++) {
     });
 }
 
-$(".summary-buttons>button").click(function(){
-    $(this).addClass("active").siblings().removeClass("active");
+$(".summary-buttons button").click(function(){
+    // Note that the parent().siblings().children() chain is required because each
+    // button is contained in a div
+    $(this).addClass("active").parent().siblings().children().removeClass("active");
 });

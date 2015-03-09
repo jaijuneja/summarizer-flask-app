@@ -1,0 +1,24 @@
+<p class="article">
+    {%- set newline_count = [0] -%}
+    {%- for text, highlight, paragraph in highlighted_text -%}
+        {%- set count = 1 -%}
+        {%- for line in text.splitlines() -%}
+            {%- if line == '' -%}
+                {# Increment newline_count #}
+                {%- set _ = newline_count.append(newline_count.pop() + 1) -%}
+            {%- else -%}
+                {# Set newline_count to zero #}
+                {%- set _ = newline_count.pop() -%}
+                {%- set _ = newline_count.append(0) -%}
+            {%- endif -%}
+            {%- if count != 1 and newline_count[0] < 1 -%}<br><br>{%- endif -%}
+            {%- if highlight -%}<mark><strong>{%- endif -%}{{ line }}{%- if highlight -%}</strong></mark>{%- endif -%}
+            {%- set count = count + 1 -%}
+        {%- endfor -%}
+        {%- if paragraph -%}
+            {# Increment newline_count #}
+            {%- set _ = newline_count.append(newline_count.pop() + 1) -%}
+            <br><br>
+        {%- endif -%}
+    {%- endfor -%}
+</p>

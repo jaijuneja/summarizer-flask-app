@@ -1,12 +1,17 @@
 import wikipedia as wiki
 import summarizer
 from .. import config
+from requests import ConnectionError
 
 
 def search(query):
-    results = wiki.search(query)
-    results = [(r, r.replace(' ', config.QUICKIPEDIA_SPACE_PLACEHOLDER)) for r in results]
-    return results
+    try:
+        results = wiki.search(query)
+        results = [(r, r.replace(' ', config.QUICKIPEDIA_SPACE_PLACEHOLDER)) for r in results]
+        return results, None
+    except ConnectionError:
+        error = 'Could not connect to Wikipedia.'
+        return [], error
 
 
 def url_to_summary(extension, algorithm):

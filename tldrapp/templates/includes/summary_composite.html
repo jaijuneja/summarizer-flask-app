@@ -1,8 +1,14 @@
-<div class="summary-buttons btn-group">
-    <button class="summary-bullets btn btn-info active">Bullets</button>
-    <button class="summary-paragraphs btn btn-info">Paragraphs</button>
+<div class="summary-buttons btn-group btn-group-justified">
+    <div class="btn-group" role="group">
+        <button class="summary-bullets btn btn-info active">Bullets</button>
+    </div>
+    <div class="btn-group" role="group">
+        <button class="summary-paragraphs btn btn-info">Paragraphs</button>
+    </div>
     {% if highlighted_text %}
-        <button class="summary-context btn btn-info">Context</button>
+        <div class="btn-group" role="group">
+            <button class="summary-highlighted btn btn-info">Highlighted</button>
+        </div>
     {% endif %}
 </div>
 
@@ -15,13 +21,13 @@
 
     <div class="summary-paragraphs">
         <h3>Summary (Paragraphs)</h3>
-        Placeholder for now.
+        {% include 'includes/summary_paragraphs.html' %}
     </div>
 
     {% if highlighted_text %}
-        <div class="summary-context">
-            <h3>Context of Summary</h3>
-            {% include 'includes/summary_context.html' %}
+        <div class="summary-highlighted">
+            <h3>Summary (Highlighted)</h3>
+            {% include 'includes/summary_highlighted.html' %}
         </div>
     {% endif %}
 

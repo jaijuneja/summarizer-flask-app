@@ -1,0 +1,10 @@
+{% if errors %}
+    <div class="alert alert-danger" role="alert">
+        <strong>Errors:</strong>
+        <ul>
+            {% for message in errors %}
+                <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endif %}

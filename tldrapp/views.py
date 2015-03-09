@@ -1,4 +1,3 @@
-import re
 import config
 import forms
 from apps import summarizer
@@ -29,7 +28,7 @@ def home():
         'home.html',
         form=form,
         summary=summary,
-        error=errors,
+        errors=errors,
         highlighted_text=highlighted_text
     )
 
@@ -49,7 +48,9 @@ def quickipedia():
 
     if request.method == 'POST' and form.validate():
         algorithm_ext = config.SUMMARY_METHODS_MAPPING.get(form.algorithm.data, '')
-        results = qpedia.search(form.search.data)
+        results, error = qpedia.search(form.search.data)
+        if error:
+            errors.append(error)
         if not results:
             error = 'Your search returned no results.'
             errors.append(error)
@@ -60,7 +61,7 @@ def quickipedia():
                            form=form,
                            algorithm=algorithm_ext,
                            results=results,
-                           error=errors)
+                           errors=errors)
 
 
 @app.route('/quickipedia/<wiki_page>/<algorithm>')
@@ -69,7 +70,7 @@ def quickipedia_results(wiki_page, algorithm):
     title, (summary, error, highlighted_text) = qpedia.url_to_summary(wiki_page, algorithm)
 
     return render_template('quickipedia_summary.html',
-                           error=error,
+                           errors=error,
                            title=title,
                            summary=summary,
                            highlighted_text=highlighted_text)
