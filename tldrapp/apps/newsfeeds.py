@@ -12,5 +12,3 @@ def get_feed_url(website):
 
 def get_news_items(feed_url):
     feed = feedparser.parse(feed_url)
-
-

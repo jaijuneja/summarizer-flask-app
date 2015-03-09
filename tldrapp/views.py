@@ -75,9 +75,9 @@ def quickipedia_results(wiki_page, algorithm):
                            highlighted_text=highlighted_text)
 
 
-# @app.route('/news')
-# def news():
-#     return render_template('news.html')
+@app.route('/news')
+def news():
+    return render_template('news.html')
 
 
 def collect_input(form_values, default_values, *fields):
