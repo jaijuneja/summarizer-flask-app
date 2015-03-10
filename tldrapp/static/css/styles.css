@@ -45,3 +45,7 @@ body {
 .summary-container > div:first-child {
     display:block;
 }
+
+h3.share-link {
+    margin-top: 0;
+}

@@ -36,7 +36,8 @@ def get_highlighted_text(summary, original_text):
         cursor = 0
         # highlighted_text is [(text, bool_highlighted, paragraph_end), ...]
         for sentence in summary:
-            text_pos = original_text.find(sentence[:-3])
+            text_pos = original_text[cursor:].find(sentence[:-3])
+            text_pos += cursor
             if text_pos != -1:
                 before = original_text[cursor:text_pos]
                 if before:

@@ -28,8 +28,16 @@
 
     {% if summary %}
         <div id="summary">
+            <div class="well clearfix">
+                <div class="col-md-3">
+                    <h3 class="share-link">Share Link</h3>
+                </div>
+                <div class="form-group col-md-9">
+                    <input id="summary-link" class="form-control" value="somerandomtext" >
+                </div>
+            </div>
             <div class="well">
-            {% include 'includes/summary_composite.html' %}
+                {% include 'includes/summary_composite.html' %}
             </div>
         </div>
     {% endif %}
