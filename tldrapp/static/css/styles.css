@@ -30,9 +30,7 @@ body {
   padding-left: 15px;
 }
 
-/* Home styles
--------------------------------------------------- */
-
+/* Summary styling */
 .article mark {
     background-color: #d9edf7;
     color: #31708f;
@@ -48,4 +46,24 @@ body {
 
 h3.share-link {
     margin-top: 0;
+}
+
+/* News page */
+
+.read-more-news {
+    text-align: right;
+}
+
+.panel-news-source {
+    background-color: #eee;
+    /*border-bottom: 1px solid #bce8f1;*/
+    /*color: #31708f;*/
+    /*height: 20px;*/
+    padding: 4px 15px;
+    height: 100%
+}
+
+.news-main-content {
+    padding-right: 0;
+    padding-left: 0;
 }

@@ -54,10 +54,8 @@
       </div>
     </footer>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.min.js') }}" ></script>
-{#    {% if active_page == 'home' or active_page == 'quickipedia' %}#}
-        <script type="text/javascript" src="{{ url_for('static', filename='js/home.js') }}" ></script>
-{#    {% endif %}#}
+    <script type="text/javascript" src="{{ url_for('static', filename='js/summary.js') }}" ></script>
 </body>
 </html>

@@ -1,4 +1,4 @@
-import config
+import settings
 from flask_wtf import Form
 from flask_wtf.html5 import URLField
 from wtforms import StringField, FloatField, SelectField
@@ -15,7 +15,7 @@ class SummarizerForm(Form):
     algorithm = SelectField(
         'Algorithm:',
         validators=[InputRequired()],
-        choices=zip(config.SUMMARY_METHODS, config.SUMMARY_METHODS))
+        choices=zip(settings.SUMMARY_METHODS, settings.SUMMARY_METHODS))
 
     length = FloatField(
         'Length (# of sentences or % of original text):',
@@ -31,7 +31,7 @@ class QuickipediaSearch(Form):
     algorithm = SelectField(
         'Summary algorithm:',
         validators=[InputRequired()],
-        choices=zip(config.SUMMARY_METHODS, config.SUMMARY_METHODS))
+        choices=zip(settings.SUMMARY_METHODS, settings.SUMMARY_METHODS))
 
 
 def collect_errors(form):

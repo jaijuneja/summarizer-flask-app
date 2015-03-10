@@ -1,10 +1,15 @@
-import config
+import settings
 import forms
 from apps import summarizer
 from apps import quickipedia as qpedia
 from flask import Flask, render_template, request
 
 app = Flask(__name__)
+
+
+@app.errorhandler(404)
+def not_found(error):
+    return render_template('404.html'), 404
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -47,7 +52,7 @@ def quickipedia():
     form = forms.QuickipediaSearch(request.form)
 
     if request.method == 'POST' and form.validate():
-        algorithm_ext = config.SUMMARY_METHODS_MAPPING.get(form.algorithm.data, '')
+        algorithm_ext = settings.SUMMARY_METHODS_MAPPING.get(form.algorithm.data, '')
         results, error = qpedia.search(form.search.data)
         if error:
             errors.append(error)
@@ -57,7 +62,7 @@ def quickipedia():
     else:
         errors += forms.collect_errors(form)
 
-    return render_template('quickipedia.html',
+    return render_template('quickipedia/quickipedia.html',
                            form=form,
                            algorithm=algorithm_ext,
                            results=results,
@@ -66,10 +71,10 @@ def quickipedia():
 
 @app.route('/quickipedia/<wiki_page>/<algorithm>')
 def quickipedia_results(wiki_page, algorithm):
-    algorithm = config.SUMMARY_METHODS_MAPPING.get(algorithm, 'TextRank')
+    algorithm = settings.SUMMARY_METHODS_MAPPING.get(algorithm, 'TextRank')
     title, (summary, error, highlighted_text) = qpedia.url_to_summary(wiki_page, algorithm)
 
-    return render_template('quickipedia_summary.html',
+    return render_template('quickipedia/quickipedia_summary.html',
                            errors=error,
                            title=title,
                            summary=summary,
@@ -78,7 +83,7 @@ def quickipedia_results(wiki_page, algorithm):
 
 @app.route('/news')
 def news():
-    return render_template('news.html')
+    return render_template('news/news.html')
 
 
 def collect_input(form_values, default_values, *fields):

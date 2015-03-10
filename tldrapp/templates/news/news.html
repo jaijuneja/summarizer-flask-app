@@ -1,0 +1,51 @@
+{% extends "layout.html" %}
+{% set active_page = "news" %}
+{% block content %}
+
+    <div class="news-wrapper">
+        <div class="well col-lg-12">
+            <h2>
+                This week's top news<br>
+                <small>from your favourite sources</small>
+            </h2>
+        </div>
+
+        <div class="news-main-content clearfix col-lg-9">
+            {% for i in range(8) %}
+            <div class="col-lg-6">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h1 class="panel-title">News Title</h1>
+                    </div>
+                    <div class="panel-news-source">
+                        Source: BBC News
+                    </div>
+                    <div class="panel-body">
+                        Circular image here (article image or source image?). Like in carousel example.
+                        <ul>
+                            {% for k in range(5) %}
+                            <li>News content.</li>
+                            {% endfor %}
+                        </ul>
+                        <div class="read-more-news">
+                            <button class="btn btn-info news-read-more">Read More</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="news-sidebar col-lg-3">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h1 class="panel-title">New Stories</h1>
+                </div>
+                <div class="panel-body">
+                    Hot articles from the past week.
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
