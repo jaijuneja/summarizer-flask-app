@@ -22,7 +22,7 @@ def home():
     form = forms.SummarizerForm(request.form)
 
     if request.method == "POST" and form.validate():
-        summary, error, highlighted_text = summarizer.summarize(
+        summary, highlighted_text, error = summarizer.summarize(
             form.text.data, form.algorithm.data, form.length.data
         )
         if error:
@@ -70,7 +70,7 @@ def quickipedia():
 def quickipedia_results(wiki_page, algorithm):
     algorithm = settings.SUMMARY_METHODS_MAPPING.get(algorithm, 'TextRank')
     try:
-        title, (summary, error, highlighted_text) = qpedia.url_to_summary(wiki_page, algorithm)
+        title, summary, highlighted_text, error = qpedia.url_to_summary(wiki_page, algorithm)
         if error:
             flash(error)
         return render_template('quickipedia/quickipedia_summary.html',
@@ -80,9 +80,7 @@ def quickipedia_results(wiki_page, algorithm):
     except wikipedia.exceptions.DisambiguationError:
         flash('Not a valid Wikipedia page. If you arrived here from the search feature, '
               'it may be because the page is a "Disambiguation" page (i.e. it just suggests other pages).')
-    finally:
         return render_template('404.html')
-
 
 @app.route('/news')
 def news():

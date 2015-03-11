@@ -28,7 +28,7 @@ def summarize(text, algorithm, length):
             error = "The input text is too short to produce a summary. If you're submitting a link " \
                     "make sure that it starts with 'http://'."
 
-    return summary, error, highlighted_text
+    return summary, highlighted_text, error
 
 
 def get_highlighted_text(summary, original_text):
