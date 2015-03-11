@@ -1,13 +1,22 @@
 <div class="summary-buttons btn-group btn-group-justified">
     <div class="btn-group" role="group">
-        <button class="summary-bullets btn btn-info active">Bullets</button>
+        <button class="summary-bullets btn btn-info active">
+            <i class="glyphicon glyphicon-list"></i>
+            <span>&nbsp;&nbsp;Bullets</span>
+        </button>
     </div>
     <div class="btn-group" role="group">
-        <button class="summary-paragraphs btn btn-info">Paragraphs</button>
+        <button class="summary-paragraphs btn btn-info">
+            <i class="glyphicon glyphicon-align-left"></i>
+            <span>&nbsp;&nbsp;Paragraphs</span>
+        </button>
     </div>
     {% if highlighted_text %}
         <div class="btn-group" role="group">
-            <button class="summary-highlighted btn btn-info">Highlighted</button>
+            <button class="summary-highlighted btn btn-info">
+                <i class="glyphicon glyphicon-text-background"></i>
+                <span>&nbsp;&nbsp;Highlighted</span>
+            </button>
         </div>
     {% endif %}
 </div>

@@ -48,6 +48,12 @@ h3.share-link {
     margin-top: 0;
 }
 
+@media all and (max-width: 460px) {
+    .summary-buttons span {
+        display: none;
+    }
+}
+
 /* News page */
 
 .read-more-news {
