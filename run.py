@@ -1,7 +1,4 @@
-from tldrapp.views import app
-
-
-app.config.from_object('config')
+from tldrapp import app
 
 if __name__ == "__main__":
     app.run()
