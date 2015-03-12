@@ -1,6 +1,9 @@
 {% extends "layout.html" %}
 {% set active_page = "home" %}
+{% block title %}Home{% endblock %}
+
 {% block content %}
+
     <div class="panel panel-info">
         <div class="panel-heading">
             <h1 class="panel-title">Automatic Text Summarizer <small>by Jai Juneja</small></h1>
@@ -20,12 +23,12 @@
                     {{ form.length.label }}
                     {{ form.length(class_='form-control') }}
                 </div>
-                <button class="btn btn-info" type=submit value="Summarize">Summarize</button>
+                <button id="summarize-button" class="btn btn-info" type=submit value="Summarize">Summarize</button>
             </form>
         </div>
     </div>
 
-    {% if summary %}
+    {% if summary.summary %}
         <div id="summary">
             <div class="well clearfix">
                 <div class="col-md-3">
@@ -42,4 +45,9 @@
         </div>
     {% endif %}
 
+{% endblock %}
+
+{% block js_scripts %}
+    {{ super() }}
+    <script type="text/javascript" src="{{ url_for('static', filename='js/summary.js') }}" ></script>
 {% endblock %}

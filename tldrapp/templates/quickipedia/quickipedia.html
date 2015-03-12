@@ -1,5 +1,6 @@
 {% extends "layout.html" %}
 {% set active_page = "quickipedia" %}
+{% block title %}Quickipedia{% endblock %}
 
 {% block content %}
 
@@ -33,4 +34,9 @@
         </div>
     </div>
 
+{% endblock %}
+
+{% block js_scripts %}
+    {{ super() }}
+    <script type="text/javascript" src="{{ url_for('static', filename='js/quickipedia_search.js') }}" ></script>
 {% endblock %}

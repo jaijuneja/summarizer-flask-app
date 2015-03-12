@@ -1,5 +1,6 @@
 {% extends "layout.html" %}
 {% set active_page = "quickipedia" %}
+{% block title %}{{ title }}{% endblock %}
 {% block content %}
     <div class="panel panel-info">
         <div class="panel-heading">
@@ -11,4 +12,9 @@
         </div>
     </div>
 
+{% endblock %}
+
+{% block js_scripts %}
+    {{ super() }}
+    <script type="text/javascript" src="{{ url_for('static', filename='js/summary.js') }}" ></script>
 {% endblock %}

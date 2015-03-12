@@ -1,24 +1,26 @@
 <div class="summary-buttons btn-group btn-group-justified">
+
     <div class="btn-group" role="group">
         <button class="summary-bullets btn btn-info active">
             <i class="glyphicon glyphicon-list"></i>
             <span>&nbsp;&nbsp;Bullets</span>
         </button>
     </div>
+
     <div class="btn-group" role="group">
         <button class="summary-paragraphs btn btn-info">
             <i class="glyphicon glyphicon-align-left"></i>
             <span>&nbsp;&nbsp;Paragraphs</span>
         </button>
     </div>
-    {% if highlighted_text %}
-        <div class="btn-group" role="group">
-            <button class="summary-highlighted btn btn-info">
-                <i class="glyphicon glyphicon-text-background"></i>
-                <span>&nbsp;&nbsp;Highlighted</span>
-            </button>
-        </div>
-    {% endif %}
+
+    <div class="btn-group" role="group">
+        <button class="summary-highlighted btn btn-info">
+            <i class="glyphicon glyphicon-text-background"></i>
+            <span>&nbsp;&nbsp;Highlighted</span>
+        </button>
+    </div>
+
 </div>
 
 <div class="summary-container">
@@ -28,16 +30,15 @@
         {% include 'includes/summary_bullets.html' %}
     </div>
 
+
     <div class="summary-paragraphs">
         <h3>Summary (Paragraphs)</h3>
         {% include 'includes/summary_paragraphs.html' %}
     </div>
 
-    {% if highlighted_text %}
-        <div class="summary-highlighted">
-            <h3>Summary (Highlighted)</h3>
-            {% include 'includes/summary_highlighted.html' %}
-        </div>
-    {% endif %}
+    <div class="summary-highlighted">
+        <h3>Summary (Highlighted)</h3>
+        {% include 'includes/summary_highlighted.html' %}
+    </div>
 
 </div>

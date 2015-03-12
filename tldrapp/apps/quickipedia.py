@@ -1,5 +1,5 @@
 import wikipedia as wiki
-import summarizer
+from summarizer import Summary
 from .. import settings
 from requests import ConnectionError
 
@@ -18,5 +18,5 @@ def url_to_summary(extension, algorithm):
     page_id = extension.replace(settings.QUICKIPEDIA_SPACE_PLACEHOLDER, ' ')
     page = wiki.page(page_id)
     title = page.title
-    summary, highlighted_text, error = summarizer.summarize(page.content, algorithm, 0.2)
-    return title, summary, highlighted_text, error
+    summary = Summary(page.content, algorithm, 0.2)
+    return title, summary

@@ -1,8 +1,8 @@
 import settings
 import forms
 import wikipedia
-import utils
-from apps import summarizer
+import helpers
+from apps.summarizer import Summary
 from apps import quickipedia as qpedia
 from flask import Flask, render_template, request, flash
 
@@ -22,19 +22,16 @@ def home():
     form = forms.SummarizerForm(request.form)
 
     if request.method == "POST" and form.validate():
-        summary, highlighted_text, error = summarizer.summarize(
-            form.text.data, form.algorithm.data, form.length.data
-        )
-        if error:
-            flash(error)
+        summary = Summary(form.text.data, form.algorithm.data, form.length.data)
+        if summary.error:
+            flash(summary.error)
 
-    utils.flash_errors(form)
+    helpers.flash_errors(form)
 
     return render_template(
         'home.html',
         form=form,
         summary=summary,
-        highlighted_text=highlighted_text
     )
 
 
@@ -58,7 +55,7 @@ def quickipedia():
         if not results:
             flash('Your search returned no results.')
 
-    utils.flash_errors(form)
+    helpers.flash_errors(form)
 
     return render_template('quickipedia/quickipedia.html',
                            form=form,
@@ -70,13 +67,12 @@ def quickipedia():
 def quickipedia_results(wiki_page, algorithm):
     algorithm = settings.SUMMARY_METHODS_MAPPING.get(algorithm, 'TextRank')
     try:
-        title, summary, highlighted_text, error = qpedia.url_to_summary(wiki_page, algorithm)
-        if error:
-            flash(error)
+        title, summary = qpedia.url_to_summary(wiki_page, algorithm)
+        if summary.error:
+            flash(summary.error)
         return render_template('quickipedia/quickipedia_summary.html',
                                title=title,
-                               summary=summary,
-                               highlighted_text=highlighted_text)
+                               summary=summary)
     except wikipedia.exceptions.DisambiguationError:
         flash('Not a valid Wikipedia page. If you arrived here from the search feature, '
               'it may be because the page is a "Disambiguation" page (i.e. it just suggests other pages).')
