@@ -24,7 +24,7 @@ class Algorithms:
 algorithms = Algorithms()
 
 
-class Summary(object):
+class Summarizer(object):
 
     def __init__(self, text, algorithm, length):
         self.summary = None
@@ -73,3 +73,14 @@ class Summary(object):
                 highlighted_text.append((end_text, False, paragraph))
 
             return highlighted_text
+
+
+class SummaryLoader(object):
+
+    def __init__(self, summary, highlighted_text):
+        self.error = None
+        if not (isinstance(summary, list) or isinstance(highlighted_text, list)) or not (summary or highlighted_text):
+            self.error = 'The summary failed to load'
+
+        self.summary = summary
+        self.highlighted_text = highlighted_text

@@ -1,17 +1,23 @@
 {% extends "layout.html" %}
-{% set active_page = "quickipedia" %}
-{% block title %}{{ title }}{% endblock %}
+{% set active_page = "" %}
+{% block title %}View Summary{% endblock %}
+
 {% block content %}
+    {% if source_url %}
+        <div class="well">
+            View the original source of the summary <a href="{{ source_url }}">here</a>.
+        </div>
+    {% endif %}
     <div class="panel panel-info">
         <div class="panel-heading">
-            <h1 class="panel-title">Summary: {{ title }}</h1>
+            <h1 class="panel-title">Summary{% if title %}: {{ title }}{% endif %}</h1>
         </div>
         <div class="panel-body">
             {% include 'includes/summary_composite.html' %}
         </div>
     </div>
-
 {% endblock %}
+
 
 {% block js_scripts %}
     {{ super() }}

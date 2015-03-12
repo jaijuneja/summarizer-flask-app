@@ -1,7 +1,7 @@
 import wikipedia
 from requests import ConnectionError
-from flask import Blueprint, render_template, request, flash
-from ..processing.summarizer import Summary, algorithms
+from flask import Blueprint, render_template, request, flash, abort
+from ..processing.summarizer import Summarizer, algorithms
 from ..forms.quickipedia import QuickipediaSearch
 from ..helpers import flash_errors
 
@@ -44,7 +44,7 @@ def results(wiki_page, algorithm):
     except wikipedia.exceptions.DisambiguationError:
         flash('Not a valid Wikipedia page. If you arrived here from the search feature, '
               'it may be because the page is a "Disambiguation" page (i.e. it just suggests other pages).')
-        return render_template('errors/404.html')
+        abort(404)
 
 
 SPACE_PLACEHOLDER = '_'
@@ -64,5 +64,5 @@ def url_to_summary(extension, algorithm):
     page_id = extension.replace(SPACE_PLACEHOLDER, ' ')
     page = wikipedia.page(page_id)
     title = page.title
-    summary = Summary(page.content, algorithm, 0.2)
+    summary = Summarizer(page.content, algorithm, 0.2)
     return title, summary
