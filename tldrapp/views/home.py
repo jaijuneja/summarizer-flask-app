@@ -26,10 +26,10 @@ def index():
                 summary.summary,
                 summary.highlighted_text,
                 source_url=url)
-            url_hash = summary_db_entry.get_sha()
             db.session.add(summary_db_entry)
             db.session.commit()
 
+            url_hash = summary_db_entry.url_hash
             url = os.path.join(request.url, url_for('home.summary_entry', url_hash=url_hash)[1:])
 
     flash_errors(form)
@@ -44,7 +44,7 @@ def index():
 
 @home.route('/s/<url_hash>')
 def summary_entry(url_hash):
-    db_entry = Summary.query.filter_by(sha=url_hash).first()
+    db_entry = Summary.query.filter_by(url_hash=url_hash).first()
     if not db_entry:
         abort(404)
 
@@ -60,6 +60,7 @@ def summary_entry(url_hash):
         summary=summary,
         source_url=source_url
     )
+
 
 @home.route('/about/')
 def about():

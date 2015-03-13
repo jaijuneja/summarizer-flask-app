@@ -1,4 +1,5 @@
-import hashlib
+from sqlalchemy import event
+from hashids import Hashids
 from datetime import datetime
 from .. import db
 from .custom_types import Json
@@ -12,7 +13,7 @@ class Summary(db.Model):
     highlighted_text = db.Column(Json)
     source_url = db.Column(db.String(80))
     date_added = db.Column(db.DateTime)
-    sha = db.Column(db.CHAR)
+    url_hash = db.Column(db.CHAR)
 
     class Meta:
         ordering = (('date_added', 'desc'),)
@@ -24,7 +25,6 @@ class Summary(db.Model):
                  date_added=None):
         self.bullets = bullets
         self.highlighted_text = highlighted_text
-        self.sha = hashlib.sha1(''.join(self.bullets)).hexdigest()
         self.source_url = source_url
         if not date_added:
             date_added = datetime.utcnow()
@@ -33,8 +33,15 @@ class Summary(db.Model):
     def __repr__(self):
         return '<Summary {0}>'.format(self.sha)
 
-    def get_sha(self):
-        return self.sha
-
     def to_summarizer_object(self):
         return SummaryLoader(self.bullets, self.highlighted_text)
+
+
+@event.listens_for(Summary, "after_insert")
+def update_hash(mapper, connection, target):
+    summary_table = mapper.local_table
+    connection.execute(
+          summary_table.update().
+              values(url_hash=Hashids().encode(target.id)).
+              where(summary_table.c.id==target.id)
+    )
