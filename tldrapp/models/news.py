@@ -11,6 +11,8 @@ from pytldr.nlp.tokenizer import Tokenizer
 # Crawler should be a cookie cutter, so that any given website can be
 # crawled at a later date, perhaps even one provided by the user
 
+# First need to test the model on it's own, then add Whoosh functionality
+# and see if it still works
 
 class NewsSource(db.Model):
     id = db.Column(db.Integer, primary_key=True)

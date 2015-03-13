@@ -1,12 +1,17 @@
+import flask.ext.whooshalchemy as whooshalchemy
+from whoosh.analysis import SimpleAnalyzer
 from sqlalchemy import event
 from hashids import Hashids
 from datetime import datetime
+from .. import app
 from .. import db
 from .custom_types import Json
 from ..processing.summarizer import SummaryLoader
 
 
 class Summary(db.Model):
+    __searchable__ = ['bullets']
+    __analyzer__ = SimpleAnalyzer()
 
     id = db.Column(db.Integer, primary_key=True)
     bullets = db.Column(Json)
@@ -14,9 +19,6 @@ class Summary(db.Model):
     source_url = db.Column(db.String(80))
     date_added = db.Column(db.DateTime)
     url = db.Column(db.String(80), unique=True)
-
-    class Meta:
-        ordering = (('date_added', 'desc'),)
 
     def __init__(self,
                  bullets,
@@ -40,8 +42,12 @@ class Summary(db.Model):
 @event.listens_for(Summary, "after_insert")
 def update_url_hash(mapper, connection, target):
     summary_table = mapper.local_table
+    hasher = Hashids(min_length=5)
     connection.execute(
-          summary_table.update().
-              values(url=Hashids().encode(target.id)).
-              where(summary_table.c.id==target.id)
+        summary_table.update().
+        values(url=hasher.encode(target.id)).
+        where(summary_table.c.id == target.id)
     )
+
+# Add the summary table to the search index
+whooshalchemy.whoosh_index(app, Summary)
