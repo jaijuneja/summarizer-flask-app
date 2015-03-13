@@ -13,7 +13,7 @@ class Summary(db.Model):
     highlighted_text = db.Column(Json)
     source_url = db.Column(db.String(80))
     date_added = db.Column(db.DateTime)
-    url_hash = db.Column(db.CHAR)
+    url = db.Column(db.String(80), unique=True)
 
     class Meta:
         ordering = (('date_added', 'desc'),)
@@ -31,17 +31,17 @@ class Summary(db.Model):
         self.date_added = date_added
 
     def __repr__(self):
-        return '<Summary {0}>'.format(self.sha)
+        return '<Summary {0}>'.format(self.url)
 
     def to_summarizer_object(self):
         return SummaryLoader(self.bullets, self.highlighted_text)
 
 
 @event.listens_for(Summary, "after_insert")
-def update_hash(mapper, connection, target):
+def update_url_hash(mapper, connection, target):
     summary_table = mapper.local_table
     connection.execute(
           summary_table.update().
-              values(url_hash=Hashids().encode(target.id)).
+              values(url=Hashids().encode(target.id)).
               where(summary_table.c.id==target.id)
     )

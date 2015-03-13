@@ -31,6 +31,8 @@ class Summarizer(object):
         self.error = None
         self.highlighted_text = None
 
+        text = parse_input(text)
+
         if algorithm == 'Latent Semantic Analysis':
             summarizer = LsaSummarizer()
         elif algorithm == 'Relevance Score':
@@ -42,32 +44,32 @@ class Summarizer(object):
 
         if not self.error:
             self.summary = summarizer.summarize(text, length=length)
-            original_text = parse_input(text)
 
-            self.highlighted_text = self.get_highlighted_text(original_text)
+            self.highlighted_text = self.get_highlighted_text(text)
 
             if not self.summary:
                 self.error = "The input text is too short to produce a summary. If you're submitting a link " \
-                             "make sure that it starts with 'http://'."
+                             "make sure that it starts with 'http://'. Otherwise, we recommend you copy and paste " \
+                             "the text directly below."
 
-    def get_highlighted_text(self, original_text):
+    def get_highlighted_text(self, text):
             highlighted_text = list()
             cursor = 0
             # highlighted_text is [(text, bool_highlighted, paragraph_end), ...]
             for sentence in self.summary:
-                text_pos = original_text[cursor:].find(sentence[:-3])
+                text_pos = text[cursor:].find(sentence[:-3])
                 text_pos += cursor
                 if text_pos != -1:
-                    before = original_text[cursor:text_pos]
+                    before = text[cursor:text_pos]
                     if before:
                         paragraph = True if before.endswith('\n') else False
                         highlighted_text.append((before, False, paragraph))
                     cursor = text_pos + len(sentence)
-                    highlighted_sentence = original_text[text_pos:cursor]
+                    highlighted_sentence = text[text_pos:cursor]
                     paragraph = True if highlighted_sentence.endswith('\n') else False
                     highlighted_text.append((highlighted_sentence, True, paragraph))
 
-            end_text = original_text[cursor:]
+            end_text = text[cursor:]
             if end_text:
                 paragraph = True if end_text.endswith('\n') else False
                 highlighted_text.append((end_text, False, paragraph))

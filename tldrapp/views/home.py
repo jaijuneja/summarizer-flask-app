@@ -21,15 +21,15 @@ def index():
         if summary.error:
             flash(summary.error)
         else:
-            url = form.text.data if form.text.data.startswith(('http://', 'https://')) else ''
+            source_url = form.text.data if form.text.data.startswith(('http://', 'https://')) else ''
             summary_db_entry = Summary(
                 summary.summary,
                 summary.highlighted_text,
-                source_url=url)
+                source_url=source_url)
             db.session.add(summary_db_entry)
             db.session.commit()
 
-            url_hash = summary_db_entry.url_hash
+            url_hash = summary_db_entry.url
             url = os.path.join(request.url, url_for('home.summary_entry', url_hash=url_hash)[1:])
 
     flash_errors(form)
@@ -44,7 +44,7 @@ def index():
 
 @home.route('/s/<url_hash>')
 def summary_entry(url_hash):
-    db_entry = Summary.query.filter_by(url_hash=url_hash).first()
+    db_entry = Summary.query.filter_by(url=url_hash).first()
     if not db_entry:
         abort(404)
 
