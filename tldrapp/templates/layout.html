@@ -3,7 +3,6 @@
     ('/quickipedia', 'quickipedia', 'Quickipedia'),
     ('/news', 'news', 'News'),
     ('/about/', 'about', 'About'),
-    ('https://github.com/jaijuneja/PyTLDR', 'github', 'GitHub')
 ] -%}
 {% set active_page = active_page|default('index') -%}
 <!DOCTYPE html>
@@ -11,7 +10,7 @@
 <head lang="en">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=1">
-    <title>{% block title %}{% endblock %} - TL;DR Summarizer</title>
+    <title>{% block title %}{% endblock %} - ZipRead</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
@@ -19,30 +18,36 @@
     <div class="container">
         <header>
             {% block header %}
-                <nav class="navbar navbar-default">
-                  <div class="container">
+            <nav class="navbar navbar-default">
+                <div class="container">
                     <div class="navbar-header">
-                      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                      </button>
-                      <a class="navbar-brand" href="/">TL;DR Summarizer</a>
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+{#                        <a class="navbar-brand" href="/">TL;DR Summarizer</a>#}
+                        <a href="{% block logo_href %}{{ url_for('home.index') }}{% endblock %}">
+                            <img src="{% block logo %}{{ url_for('static', filename='images/logo.png') }}{% endblock %}"
+                             class="logo navbar-brand">
+                        </a>
                     </div>
 
-                    <!-- Collect the nav links, forms, and other content for toggling -->
+                        <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                      <ul class="nav navbar-nav">
-                          {% for href, id, text in navigation_bar %}
-                              <li{% if id == active_page %} class="active"{% endif %}>
-                                <a href="{{ href|e }}">{{ text|e }}</a>
-                              </li>
-                          {% endfor %}
-                      </ul>
+                        <ul class="nav navbar-nav">
+                            {% for href, id, text in navigation_bar %}
+                                <li{% if id == active_page %} class="active"{% endif %}>
+                                    <a href="{{ href|e }}">{{ text|e }}</a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+
+                        {% include 'news/nav_search.html' %}
                     </div><!-- /.navbar-collapse -->
-                  </div><!-- /.container-fluid -->
-                </nav>
+                </div><!-- /.container-fluid -->
+            </nav>
             {% endblock %}
         </header>
         {% include 'includes/errors.html' %}

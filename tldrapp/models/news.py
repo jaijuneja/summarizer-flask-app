@@ -1,6 +1,8 @@
+import flask.ext.whooshalchemy as whooshalchemy
+from whoosh.analysis import SimpleAnalyzer
 from sqlalchemy import event
 from hashids import Hashids
-from .. import db
+from .. import app, db
 from .home import Summary
 from pytldr.nlp.tokenizer import Tokenizer
 
@@ -13,6 +15,7 @@ from pytldr.nlp.tokenizer import Tokenizer
 
 # First need to test the model on it's own, then add Whoosh functionality
 # and see if it still works
+
 
 class NewsSource(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -30,8 +33,10 @@ class NewsSource(db.Model):
 
 
 class NewsSummary(Summary):
+    __searchable__ = ['bullets']
+    __analyzer__ = SimpleAnalyzer()
+
     title = db.Column(db.String)
-    url = db.Column(db.String, unique=True)
     pub_date = db.Column(db.DateTime)
     image_path = db.Column(db.String(80))
 
@@ -78,7 +83,8 @@ def update_url(mapper, connection, target):
     url = '{0}-{1}'.format(url_hash, title_clean)
 
     connection.execute(
-          news_summary_table.update().
-              values(url=url).
-              where(news_summary_table.c.id==target.id)
+        news_summary_table.update().values(url=url).where(news_summary_table.c.id == target.id)
     )
+
+# Add the summary table to the search index
+whooshalchemy.whoosh_index(app, NewsSummary)

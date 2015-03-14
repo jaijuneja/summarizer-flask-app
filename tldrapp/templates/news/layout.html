@@ -1,0 +1,4 @@
+{% extends "layout.html" %}
+{% set active_page = "news" %}
+{% block logo_href %}{{ url_for('news.index') }}{% endblock %}
+{% block logo %}{{ url_for('static', filename='images/news-logo.png') }}{% endblock %}

@@ -1,0 +1,24 @@
+{% extends "news/layout.html" %}
+{% set active_page = "news" %}
+{% block title %}News Search{% endblock %}
+
+{% block content %}
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            <h1 class="panel-title">News Search</h1>
+        </div>
+        <div class="panel-body">
+
+            <form action="" method="post">
+                {{ form.hidden_tag() }}
+                <div class="form-group col-sm-9">
+                    {{ form.search(class_='form-control', placeholder='Search news summaries...') }}
+                </div>
+                <div class="col-sm-3">
+                    <button class="btn btn-info form-control" type="submit" value="SearchNews">Search</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+{% endblock %}

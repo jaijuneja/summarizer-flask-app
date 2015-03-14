@@ -62,6 +62,6 @@ def summary_entry(url_hash):
     )
 
 
-@home.route('/about/')
+@home.route('/about')
 def about():
     return render_template('home/about.html')

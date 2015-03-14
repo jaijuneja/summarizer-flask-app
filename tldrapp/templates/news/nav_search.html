@@ -1,0 +1,6 @@
+<form class="navbar-form pull-right" method="post" name="search" action="{{ url_for('news.search') }}">
+    {{ g.search_form.hidden_tag() }}
+    <div class="form-group">
+        {{ g.search_form.search(placeholder='Search news...', class_='form-control search-query') }}
+    </div>
+</form>

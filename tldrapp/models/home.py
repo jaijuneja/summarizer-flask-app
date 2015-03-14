@@ -1,18 +1,12 @@
-import flask.ext.whooshalchemy as whooshalchemy
-from whoosh.analysis import SimpleAnalyzer
 from sqlalchemy import event
 from hashids import Hashids
 from datetime import datetime
-from .. import app
 from .. import db
 from .custom_types import Json
 from ..processing.summarizer import SummaryLoader
 
 
 class Summary(db.Model):
-    __searchable__ = ['bullets']
-    __analyzer__ = SimpleAnalyzer()
-
     id = db.Column(db.Integer, primary_key=True)
     bullets = db.Column(Json)
     highlighted_text = db.Column(Json)
@@ -48,6 +42,3 @@ def update_url_hash(mapper, connection, target):
         values(url=hasher.encode(target.id)).
         where(summary_table.c.id == target.id)
     )
-
-# Add the summary table to the search index
-whooshalchemy.whoosh_index(app, Summary)

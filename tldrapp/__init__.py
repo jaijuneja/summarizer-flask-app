@@ -10,6 +10,7 @@ app.config.from_object('config')
 # Database
 db = SQLAlchemy(app)
 
+
 # Error handling
 @app.errorhandler(404)
 def not_found(error):

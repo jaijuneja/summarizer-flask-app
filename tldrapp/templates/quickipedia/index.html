@@ -9,7 +9,7 @@
             <h1 class="panel-title">Quickipedia: Wikipedia on a Deadline</h1>
         </div>
         <div class="panel-body">
-            <form action="" method=post>
+            <form action="" method="post">
                 {{ form.hidden_tag() }}
                 <div class="form-group">
                     {{ form.search.label }}
@@ -19,7 +19,7 @@
                     {{ form.algorithm.label }}
                     {{ form.algorithm(class_='form-control') }}
                 </div>
-                <button class="btn btn-info" type=submit value="Search">Search</button>
+                <button class="btn btn-info" type="submit" value="Search">Search</button>
             </form>
             {% if results %}
                 <div id="search-results">

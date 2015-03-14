@@ -6,10 +6,10 @@
 
     <div class="panel panel-info">
         <div class="panel-heading">
-            <h1 class="panel-title">Automatic Text Summarizer <small>by Jai Juneja</small></h1>
+            <h1 class="panel-title">Automatic Text Summarizer</h1>
         </div>
         <div class="panel-body">
-            <form action="" method=post>
+            <form action="" method="post">
                 {{ form.hidden_tag() }}
                 <div class="form-group">
                     {{ form.text.label }}
@@ -23,7 +23,7 @@
                     {{ form.length.label }}
                     {{ form.length(class_='form-control') }}
                 </div>
-                <button id="summarize-button" class="btn btn-info" type=submit value="Summarize">Summarize</button>
+                <button id="summarize-button" class="btn btn-info" type="submit" value="Summarize">Summarize</button>
             </form>
         </div>
     </div>
