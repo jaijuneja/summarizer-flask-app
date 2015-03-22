@@ -22,6 +22,10 @@
                         Source: BBC News
                     </div>
                     <div class="panel-body">
+                        <div class="news-image"
+                             style="background-image: url('{{ url_for('static', filename='images/news/placeholder.jpg') }}');">
+                            <img src="{{ url_for('static', filename='images/news/placeholder.jpg') }}" class="news-image-hidden" />
+                         </div>
                         Circular image here (article image or source image?). Like in carousel example.
                         <ul>
                             {% for k in range(5) %}
@@ -49,4 +53,9 @@
         </div>
     </div>
 
+{% endblock %}
+
+{% block js_scripts %}
+    {{ super() }}
+    <script type="text/javascript" src="{{ url_for('static', filename='js/news.js') }}" ></script>
 {% endblock %}

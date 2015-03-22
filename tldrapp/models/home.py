@@ -1,9 +1,10 @@
 from sqlalchemy import event
 from hashids import Hashids
 from datetime import datetime
-from .. import db
+
 from .custom_types import Json
-from ..processing.summarizer import SummaryLoader
+
+from .. import db
 
 
 class Summary(db.Model):
@@ -28,9 +29,6 @@ class Summary(db.Model):
 
     def __repr__(self):
         return '<Summary {0}>'.format(self.url)
-
-    def to_summarizer_object(self):
-        return SummaryLoader(self.bullets, self.highlighted_text)
 
 
 @event.listens_for(Summary, "after_insert")

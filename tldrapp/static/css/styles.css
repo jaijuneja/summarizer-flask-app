@@ -3,12 +3,6 @@
     /*margin-right: 15px;*/
 }
 
-span.valign-helper {
-    display: inline-block;
-    height: 100%;
-    vertical-align: middle;
-}
-
 .navbar-brand {
     padding: 5px 15px 14px 15px;
 }
@@ -105,4 +99,25 @@ h3.share-link {
 .news-main-content {
     padding-right: 0;
     padding-left: 0;
+}
+
+.news-image {
+    float: right;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background-position: center;
+    overflow: hidden;
+}
+
+.news-image-portrait {
+    background-size: 80px auto;
+}
+
+.news-image-landscape {
+    background-size: auto 80px;
+}
+
+.news-image-hidden {
+    display: none;
 }

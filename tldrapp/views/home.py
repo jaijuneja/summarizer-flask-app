@@ -1,10 +1,13 @@
 import os
-from flask import Blueprint, render_template, request, flash, abort, url_for
+
+from flask import Blueprint, render_template, request, flash, url_for
+
 from .. import db
 from ..models.home import Summary
 from ..forms.home import SummarizerForm
 from ..processing.summarizer import Summarizer
 from ..helpers import flash_errors
+from ..processing.newsbot import NewsBot
 
 home = Blueprint('home', __name__)
 
@@ -23,7 +26,7 @@ def index():
         else:
             source_url = form.text.data if form.text.data.startswith(('http://', 'https://')) else ''
             summary_db_entry = Summary(
-                summary.summary,
+                summary.bullets,
                 summary.highlighted_text,
                 source_url=source_url)
             db.session.add(summary_db_entry)
@@ -44,16 +47,8 @@ def index():
 
 @home.route('/s/<url_hash>')
 def summary_entry(url_hash):
-    db_entry = Summary.query.filter_by(url=url_hash).first()
-    if not db_entry:
-        abort(404)
-
-    summary = db_entry.to_summarizer_object()
-    if summary.error:
-        flash(summary.error)
-        abort(404)
-
-    source_url = db_entry.source_url
+    summary = Summary.query.filter_by(url=url_hash).first_or_404()
+    source_url = summary.source_url
 
     return render_template(
         'home/summary.html',
@@ -65,3 +60,14 @@ def summary_entry(url_hash):
 @home.route('/about')
 def about():
     return render_template('home/about.html')
+
+
+@home.route('/newsbot')
+def news_bot():
+    newsbot = NewsBot(
+        'http://feeds.bbci.co.uk/news/world/europe/rss.xml',
+        'TextRank',
+        0.2
+    )
+    articles = newsbot.crawl(commit=True)
+    return render_template('home/newsbot.html', articles=articles)

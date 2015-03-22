@@ -26,12 +26,12 @@ algorithms = Algorithms()
 
 class Summarizer(object):
 
-    def __init__(self, text, algorithm, length):
-        self.summary = None
+    def __init__(self, source, algorithm, length):
+        self.bullets = None
         self.error = None
         self.highlighted_text = None
 
-        text = parse_input(text)
+        text = parse_input(source)
 
         if algorithm == 'Latent Semantic Analysis':
             summarizer = LsaSummarizer()
@@ -43,11 +43,11 @@ class Summarizer(object):
             self.error = 'The summarization algorithm "{0}" does not exist'.format(algorithm)
 
         if not self.error:
-            self.summary = summarizer.summarize(text, length=length)
+            self.bullets = summarizer.summarize(text, length=length)
 
             self.highlighted_text = self.get_highlighted_text(text)
 
-            if not self.summary:
+            if not self.bullets:
                 self.error = "The input text is too short to produce a summary. If you're submitting a link " \
                              "make sure that it starts with 'http://'. Otherwise, we recommend you copy and paste " \
                              "the text directly below."
@@ -56,7 +56,7 @@ class Summarizer(object):
             highlighted_text = list()
             cursor = 0
             # highlighted_text is [(text, bool_highlighted, paragraph_end), ...]
-            for sentence in self.summary:
+            for sentence in self.bullets:
                 text_pos = text[cursor:].find(sentence[:-3])
                 text_pos += cursor
                 if text_pos != -1:
@@ -75,14 +75,3 @@ class Summarizer(object):
                 highlighted_text.append((end_text, False, paragraph))
 
             return highlighted_text
-
-
-class SummaryLoader(object):
-
-    def __init__(self, summary, highlighted_text):
-        self.error = None
-        if not (isinstance(summary, list) or isinstance(highlighted_text, list)) or not (summary or highlighted_text):
-            self.error = 'The summary failed to load'
-
-        self.summary = summary
-        self.highlighted_text = highlighted_text

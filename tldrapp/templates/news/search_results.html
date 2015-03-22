@@ -1,7 +1,15 @@
 {% extends "news/layout.html" %}
-{% set active_page = "news" %}
 {% block title %}News Search{% endblock %}
 
 {% block content %}
-    Yay it worked!
+    <div class="well">
+        Showing results for "{{ query }}".
+    </div>
+    <ul>
+    {% for result in results %}
+        <li>
+            <a href="../{{ result.url }}">{{ result.title }}</a>
+        </li>
+    {% endfor %}
+    </ul>
 {% endblock %}
