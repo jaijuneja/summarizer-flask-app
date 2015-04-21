@@ -1,0 +1,44 @@
+<div class="col-lg-12 js-infinite-item">
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            <a href="{{ summary.url }}"><h1 class="panel-title">{{ summary.title }}</h1></a>
+        </div>
+        <div class="panel-news-source">
+            Source: {{ summary.news_source.name }}
+        </div>
+        <div class="panel-body">
+            <div class="news-image"
+                 style="background-image: url('{{ summary.image_path }}');">
+                <img src="{{ summary.image_path }}" class="news-image-hidden" />
+             </div>
+            <ul class="summary-list">
+                {% set counter = [0] %}
+                {% for sentence in summary.bullets %}
+                    {% set _ = counter.append(counter.pop() + 1) %}
+                    {% if counter[0] <= 5 %}
+                        <li>{{ sentence }}</li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+            <div class="more-news">
+                <div class="hidden">
+                    <ul class="summary-list read-more-ul">
+                        {% set counter = [0] %}
+                        {% for sentence in summary.bullets %}
+                            {% set _ = counter.append(counter.pop() + 1) %}
+                            {% if counter[0] > 5 %}
+                                <li>{{ sentence }}</li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% if counter[0] > 5 %}
+                    <div class="read-more-news">
+                        <a class="btn btn-info news-read-more readMore" href="#" onclick="return false;">Read More</a>
+                        <a class="btn btn-info news-read-more readLess hidden" href="#" onclick="return false;">Read Less</a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>

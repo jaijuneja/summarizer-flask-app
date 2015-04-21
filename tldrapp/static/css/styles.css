@@ -83,6 +83,10 @@ h3.share-link {
 
 /* News page */
 
+.read-more-ul {
+    margin-top: -10px;
+}
+
 .read-more-news {
     text-align: right;
 }
@@ -108,6 +112,8 @@ h3.share-link {
     border-radius: 50%;
     background-position: center;
     overflow: hidden;
+    margin-left: 15px;
+    margin-bottom: 10px;
 }
 
 .news-image-portrait {

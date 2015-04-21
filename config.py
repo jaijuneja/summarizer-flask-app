@@ -26,3 +26,6 @@ CSRF_SESSION_KEY = "secret"
 
 # Secret key for signing cookies
 SECRET_KEY = "secret"
+
+# News settings
+NEWS_PER_PAGE = 10

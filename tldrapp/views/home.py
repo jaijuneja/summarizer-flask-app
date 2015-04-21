@@ -56,18 +56,18 @@ def summary_entry(url_hash):
         source_url=source_url
     )
 
-
 @home.route('/about')
+@home.route('/about/')
 def about():
     return render_template('home/about.html')
 
 
-@home.route('/newsbot')
+@home.route('/news_bot')
 def news_bot():
-    newsbot = NewsBot(
-        'http://feeds.bbci.co.uk/news/world/europe/rss.xml',
+    news_bot = NewsBot(
+        'http://feeds.bbci.co.uk/news/world/rss.xml',
         'TextRank',
-        0.2
+        0.3
     )
-    articles = newsbot.crawl(commit=True)
-    return render_template('home/newsbot.html', articles=articles)
+    articles = news_bot.crawl(commit=True)
+    return

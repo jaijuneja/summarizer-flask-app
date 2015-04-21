@@ -11,6 +11,9 @@ from .. import app, db
 
 
 class NewsSource(db.Model):
+    # __searchable__ = ['bullets']
+    # __analyzer__ = SimpleAnalyzer()
+
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(32))
     feed_url = db.Column(db.String(80))
@@ -75,7 +78,7 @@ def update_url(mapper, connection, target):
     title_clean = title_clean.replace(' ', '-')
 
     url_hash = Hashids(min_length=4).encode(target.id)
-    url = '{0}-{1}'.format(title_clean, url_hash)
+    url = title_clean + '-' + url_hash
 
     connection.execute(
         news_summary_table.update().values(url=url).where(news_summary_table.c.id == target.id)
@@ -83,3 +86,4 @@ def update_url(mapper, connection, target):
 
 # Add the summary table to the search index
 whooshalchemy.whoosh_index(app, NewsSummary)
+# whooshalchemy.whoosh_index(app, NewsSource)

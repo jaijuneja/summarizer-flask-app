@@ -13,14 +13,20 @@ def before_request():
 
 
 @news.route('/')
-def index():
+@news.route('/page/<int:page>')
+def index(page=1):
     # Need to store the typical query in a cache, some way of checking
     # modified date
     # Could also store sidebar stuff in the cache, similar articles etc.
     # For each article need a set of similar articles. These can be updated every day
     # for recent articles and a bit longer for older ones.
     # Flask-Cache with Redis is a good option
-    return render_template('news/index.html')
+    results_per_page = app.config['NEWS_PER_PAGE']
+    # results = NewsSummary.query.order_by(NewsSummary.pub_date.desc()).limit(10).all()
+    results = NewsSummary.query.order_by(NewsSummary.pub_date.desc())\
+        .paginate(page, results_per_page, False).items
+    template = 'news/index.html' if page == 1 else 'news/news_items.html'
+    return render_template(template, results=results, page=page)
 
 
 @news.route('/<url_hash>')

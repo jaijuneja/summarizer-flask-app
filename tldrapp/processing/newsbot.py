@@ -8,9 +8,10 @@ from hashids import Hashids
 from time import time, mktime
 from datetime import datetime
 
-from config import BASE_DIR
+from flask import url_for
 from .summarizer import Summarizer
 from ..models.news import NewsSummary, NewsSource
+from ..helpers import check_create_dir
 from .. import db
 
 
@@ -38,6 +39,7 @@ class NewsBot(object):
         for feed_url in self.feed_urls:
             feed = feedparser.parse(feed_url)
             feed_name = feed.feed.title
+            print feed_name
 
             if not feed.entries:
                 continue
@@ -124,25 +126,32 @@ class Article(object):
                 database.session.commit()
 
             # Convert image url to image path and hash to get filename
-            IMAGE_SAVE_PATH = os.path.join(BASE_DIR, 'tldrapp/static/images/news/')
             VALID_IMAGE_FORMATS = ('.png', '.jpg', '.jpeg', '.gif')
 
             # Check that the image is valid
             if self.image_url.lower().endswith(VALID_IMAGE_FORMATS):
                 image_filename = os.path.split(self.image_url)[-1]
                 image_filename = '{0}_{1}'.format(Hashids().encode(int(time())), image_filename)
-                image_path = os.path.join(IMAGE_SAVE_PATH, image_filename)
+
+                now = datetime.now()
+                date_folder = now.strftime('%Y/%m/')
+                image_path = os.path.join(os.path.dirname(os.path.realpath(__file__)),
+                                          os.path.join('../static/images/news/', date_folder))
+                check_create_dir(image_path)
+                image_path = os.path.join(image_path, image_filename)
+                image_url = url_for('static', filename=os.path.join('images/news/', date_folder, image_filename))
                 try:
                     # Save the image
                     urllib.urlretrieve(self.image_url, image_path)
                 except IOError:
-                    image_path = ''
+                    image_url = ''
             else:
-                image_path = ''
+                image_url = ''
 
             # Check if the news article already exists in the database
             news_summary_search = NewsSummary.query.filter_by(source_url=self.source_url).first()
             if news_summary_search:
+                print "Article '" + self.title + "' already exists in db"
                 self.url = news_summary_search.url
                 return self.url
 
@@ -154,9 +163,11 @@ class Article(object):
                 news_source_entry,
                 self.source_url,
                 pub_date=self.pub_date,
-                image_path=image_path)
+                image_path=image_url)
 
             db.session.add(news_db_entry)
             db.session.commit()
             self.url = news_db_entry.url
+
+            print "Committed '" + self.title + "' to db"
             return self.url

@@ -12,33 +12,20 @@
         </div>
 
         <div class="news-main-content clearfix col-lg-9">
-            {% for i in range(8) %}
-            <div class="col-md-6">
-                <div class="panel panel-info">
-                    <div class="panel-heading">
-                        <h1 class="panel-title">News Title</h1>
-                    </div>
-                    <div class="panel-news-source">
-                        Source: BBC News
-                    </div>
-                    <div class="panel-body">
-                        <div class="news-image"
-                             style="background-image: url('{{ url_for('static', filename='images/news/placeholder.jpg') }}');">
-                            <img src="{{ url_for('static', filename='images/news/placeholder.jpg') }}" class="news-image-hidden" />
-                         </div>
-                        Circular image here (article image or source image?). Like in carousel example.
-                        <ul>
-                            {% for k in range(5) %}
-                            <li>News content.</li>
-                            {% endfor %}
-                        </ul>
-                        <div class="read-more-news">
-                            <button class="btn btn-info news-read-more">Read More</button>
-                        </div>
-                    </div>
+            {% if results %}
+            <div class="js-infinite-layout">
+                {% include 'news/news_items.html' %}
+                <div class="js-infinite-navigation">
+                    <a href="{{ request.url }}page/{{ page + 1 }}"></a>
                 </div>
             </div>
-            {% endfor %}
+
+            {% else %}
+                <p class="alert alert-info">
+                    No news to show.
+                </p>
+            {% endif %}
+
         </div>
 
         <div class="news-sidebar col-lg-3">
@@ -57,5 +44,6 @@
 
 {% block js_scripts %}
     {{ super() }}
+    <script type="text/javascript" src="{{ url_for('static', filename='js/jquery.infinitescroll.min.js') }}" ></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/news.js') }}" ></script>
 {% endblock %}

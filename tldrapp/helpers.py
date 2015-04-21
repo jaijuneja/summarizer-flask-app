@@ -1,3 +1,5 @@
+import os
+
 from flask import flash
 from flask_wtf import Form
 
@@ -16,3 +18,9 @@ def flash_errors(*args):
         else:
             for error in error_set:
                 flash(error)
+
+
+def check_create_dir(path):
+    if os.path.isdir(path):
+        return
+    os.makedirs(path)

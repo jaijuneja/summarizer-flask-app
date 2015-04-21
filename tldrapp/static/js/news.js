@@ -11,3 +11,21 @@ $(".news-image img").each(function() {
         }
     })
 });
+
+$('.js-infinite-layout').infinitescroll({
+  itemSelector: '.js-infinite-item',
+  nextSelector: "div.js-infinite-navigation a:first",
+  navSelector: "div.js-infinite-navigation",
+});
+
+$('.readMore').click(function(){
+    $(this).parent().siblings().removeClass('hidden');
+    $(this).siblings().removeClass('hidden');
+    $(this).addClass('hidden');
+});
+
+$('.readLess').click(function(){
+    $(this).parent().siblings().addClass('hidden');
+    $(this).siblings().removeClass('hidden');
+    $(this).addClass('hidden');
+});
