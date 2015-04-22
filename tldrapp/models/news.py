@@ -11,8 +11,8 @@ from .. import app, db
 
 
 class NewsSource(db.Model):
-    # __searchable__ = ['bullets']
-    # __analyzer__ = SimpleAnalyzer()
+    __searchable__ = ['name']
+    __analyzer__ = SimpleAnalyzer()
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(32))
@@ -28,6 +28,18 @@ class NewsSource(db.Model):
         return '<NewsSource {0}>'.format(self.name)
 
 
+class NewsCategory(db.Model):
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(32))
+
+    def __init__(self, name):
+        self.name = name
+
+    def __repr__(self):
+        return '<NewsCategory {0}>'.format(self.name)
+
+
 class NewsSummary(Summary):
     __searchable__ = ['bullets']
     __analyzer__ = SimpleAnalyzer()
@@ -39,12 +51,16 @@ class NewsSummary(Summary):
     news_source_id = db.Column(db.Integer, db.ForeignKey('news_source.id'))
     news_source = db.relationship('NewsSource', backref=db.backref('summaries', lazy='dynamic'))
 
+    news_category_id = db.Column(db.Integer, db.ForeignKey('news_category.id'))
+    news_category = db.relationship('NewsCategory', backref=db.backref('summaries', lazy='dynamic'))
+
     def __init__(self,
                  title,
                  bullets,
                  highlighted_text,
                  news_source,
                  source_url,
+                 news_category,
                  date_added=None,
                  pub_date=None,
                  image_path='',
@@ -57,6 +73,7 @@ class NewsSummary(Summary):
 
         self.title = title
         self.news_source = news_source
+        self.news_category = news_category
         self.pub_date = pub_date
         self.image_path = image_path
         # TODO: if no image path, use news source image, else some generic image defined in config
@@ -86,4 +103,4 @@ def update_url(mapper, connection, target):
 
 # Add the summary table to the search index
 whooshalchemy.whoosh_index(app, NewsSummary)
-# whooshalchemy.whoosh_index(app, NewsSource)
+whooshalchemy.whoosh_index(app, NewsSource)

@@ -10,20 +10,33 @@ from datetime import datetime
 
 from flask import url_for
 from .summarizer import Summarizer
-from ..models.news import NewsSummary, NewsSource
+from ..models.news import NewsSummary, NewsSource, NewsCategory
 from ..helpers import check_create_dir
 from .. import db
 
 
 class NewsBot(object):
 
-    def __init__(self, url, summary_algorithm, summary_length):
+    def __init__(self, url, summary_algorithm, summary_length, category=None):
         feeds = self.get_feed_urls(url)
         if feeds:
             self.feed_urls = feeds
         else:
             self.feed_urls = [url]
 
+        if not category:
+            # The category is 'Uncategorized'
+            category = 'Uncategorized'
+
+        # Check if the category exists
+        category_entry = NewsCategory.query.filter_by(name=category).first()
+        if not category_entry:
+            # If the category doesn't exist in db, create it
+            category_entry = NewsCategory(name=category)
+            db.session.add(category_entry)
+            db.session.commit()
+
+        self.category = category_entry
         self.summary_algorithm = summary_algorithm
         self.summary_length = summary_length
         self.articles = []
@@ -76,7 +89,8 @@ class NewsBot(object):
                     highlighted_text=highlighted_text,
                     summary_failed=summary_failed,
                     feed_url=feed_url,
-                    news_source_name=feed_name
+                    news_source_name=feed_name,
+                    news_category=self.category
                 )
 
                 if commit:
@@ -94,6 +108,7 @@ class Article(object):
                  source_url='',
                  feed_url='',
                  news_source_name='',
+                 news_category='',
                  pub_date=None,
                  image_url='',
                  bullets=list(),
@@ -104,6 +119,7 @@ class Article(object):
         self.source_url = source_url
         self.feed_url = feed_url
         self.news_source_name = news_source_name
+        self.news_category = news_category
         self.pub_date = pub_date
         self.image_url = image_url
         self.bullets = bullets
@@ -162,6 +178,7 @@ class Article(object):
                 self.highlighted_text,
                 news_source_entry,
                 self.source_url,
+                self.news_category,
                 pub_date=self.pub_date,
                 image_path=image_url)
 
