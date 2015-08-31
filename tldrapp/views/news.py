@@ -3,8 +3,8 @@ from ..helpers import flash_errors
 from ..models.news import NewsSummary, NewsCategory, NewsSource
 from ..forms.news import SearchForm
 from ..cache import cache
-from ..processing.newsrank import rank_news
 from .. import app
+from ..processing.newsrank import rank_news
 from config import MAX_SEARCH_RESULTS
 
 news = Blueprint('news', __name__)
@@ -40,8 +40,8 @@ def category_page(category, page=1):
         .order_by(NewsSummary.pub_date.desc())\
         .paginate(page, results_per_page, False).items
 
-    # if not results:
-    #     abort(404)
+    if not results:
+        abort(404)
 
     sidebar = get_hot_sidebar('category', category)
     categories, sources = get_bottom_nav()
@@ -60,8 +60,8 @@ def source_page(source, page=1):
         .order_by(NewsSummary.pub_date.desc())\
         .paginate(page, results_per_page, False).items
 
-    # if not results:
-    #     abort(404)
+    if not results:
+        abort(404)
 
     sidebar = get_hot_sidebar('source', source)
     categories, sources = get_bottom_nav()
