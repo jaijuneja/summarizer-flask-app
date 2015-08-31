@@ -1,4 +1,4 @@
-DEBUG = True
+DEBUG = False
 
 # Application directory
 import os

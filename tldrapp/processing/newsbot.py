@@ -65,7 +65,7 @@ class NewsBot(object):
                 title = entry.title
 
                 if title.lower().startswith('video:'):
-                    print "Skipping article '{0}' as it is a video".format(title)
+                    print "Skipping article '" + title + "' as it is a video"
                     continue
 
                 url = entry.link.split('#')[0]
