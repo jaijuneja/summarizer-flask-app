@@ -4,4 +4,4 @@ A simple single-page web app that performs automatic summarization of text and w
 
 The app showcases some of the basic capability of the PyTLDR summarization module for Python.
 
-You can vew a live demo [here](http://fast-anchorage-3370.herokuapp.com/).
+You can vew a live demo [here](http://www.zipread.co).
