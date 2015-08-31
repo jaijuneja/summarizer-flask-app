@@ -1,7 +1,9 @@
-from flask import g, Blueprint, render_template, request, redirect, url_for
+from flask import g, Blueprint, render_template, request, redirect, url_for, abort
 from ..helpers import flash_errors
-from ..models.news import NewsSummary
+from ..models.news import NewsSummary, NewsCategory, NewsSource
 from ..forms.news import SearchForm
+from ..cache import cache
+from ..processing.newsrank import rank_news
 from .. import app
 from config import MAX_SEARCH_RESULTS
 
@@ -12,21 +14,60 @@ def before_request():
     g.search_form = SearchForm()
 
 
+@cache.memoize()
 @news.route('/')
 @news.route('/page/<int:page>')
 def index(page=1):
-    # Need to store the typical query in a cache, some way of checking
-    # modified date
-    # Could also store sidebar stuff in the cache, similar articles etc.
-    # For each article need a set of similar articles. These can be updated every day
-    # for recent articles and a bit longer for older ones.
-    # Flask-Cache with Redis is a good option
     results_per_page = app.config['NEWS_PER_PAGE']
-    # results = NewsSummary.query.order_by(NewsSummary.pub_date.desc()).limit(10).all()
-    results = NewsSummary.query.order_by(NewsSummary.pub_date.desc())\
+    results = NewsSummary.query\
+        .order_by(NewsSummary.pub_date.desc())\
         .paginate(page, results_per_page, False).items
+
+    sidebar = get_hot_sidebar('', '')
+    categories, sources = get_bottom_nav()
+
     template = 'news/index.html' if page == 1 else 'news/news_items.html'
-    return render_template(template, results=results, page=page)
+    return render_template(template, results=results, sidebar=sidebar, page=page, categories=categories, sources=sources)
+
+
+@cache.memoize()
+@news.route('/category/<category>/')
+@news.route('/category/<category>/page/<int:page>')
+def category_page(category, page=1):
+    results_per_page = app.config['NEWS_PER_PAGE']
+    results = NewsSummary.query.join(NewsCategory)\
+        .filter(NewsCategory.slug == category)\
+        .order_by(NewsSummary.pub_date.desc())\
+        .paginate(page, results_per_page, False).items
+
+    # if not results:
+    #     abort(404)
+
+    sidebar = get_hot_sidebar('category', category)
+    categories, sources = get_bottom_nav()
+
+    template = 'news/index.html' if page == 1 else 'news/news_items.html'
+    return render_template(template, results=results, sidebar=sidebar, page=page, categories=categories, sources=sources)
+
+
+@cache.memoize()
+@news.route('/source/<source>/')
+@news.route('/source/<source>/page/<int:page>')
+def source_page(source, page=1):
+    results_per_page = app.config['NEWS_PER_PAGE']
+    results = NewsSummary.query.join(NewsSource)\
+        .filter(NewsSource.slug == source)\
+        .order_by(NewsSummary.pub_date.desc())\
+        .paginate(page, results_per_page, False).items
+
+    # if not results:
+    #     abort(404)
+
+    sidebar = get_hot_sidebar('source', source)
+    categories, sources = get_bottom_nav()
+
+    template = 'news/index.html' if page == 1 else 'news/news_items.html'
+    return render_template(template, results=results, sidebar=sidebar, page=page, categories=categories, sources=sources)
 
 
 @news.route('/<url_hash>')
@@ -59,3 +100,34 @@ def search_results(query):
     return render_template('news/search_results.html',
                            query=query,
                            results=results)
+
+
+@cache.memoize()
+def get_hot_sidebar(category_type, category_name, num_input_articles=500, num_output_articles=10):
+    if category_type == 'category':
+        articles = NewsSummary.query.join(NewsCategory)\
+            .filter(NewsCategory.slug == category_name)\
+            .order_by(NewsSummary.pub_date.desc()).limit(num_input_articles).all()
+    elif category_type == 'source':
+        articles = NewsSummary.query.join(NewsSource)\
+            .filter(NewsSource.slug == category_name)\
+            .order_by(NewsSummary.pub_date.desc()).limit(num_input_articles).all()
+    else:
+        articles = NewsSummary.query.order_by(NewsSummary.pub_date.desc()).limit(num_input_articles).all()
+
+    article_titles = [article.title for article in articles]
+
+    # Replace 'None' article titles with empty string
+    for i, _ in enumerate(article_titles):
+        article_titles[i] = '' if not article_titles[i] else article_titles[i]
+
+    top_articles = rank_news(article_titles, length=num_output_articles)
+
+    return [articles[i] for i in top_articles]
+
+
+@cache.memoize()
+def get_bottom_nav():
+    categories = NewsCategory.query.order_by(NewsCategory.name.asc()).all()
+    sources = NewsSource.query.order_by(NewsSource.name.asc()).all()
+    return categories, sources

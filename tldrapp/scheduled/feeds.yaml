@@ -1,0 +1,140 @@
+feeds:
+  - url: http://feeds.bbci.co.uk/news/rss.xml
+    name: BBC
+    image_path: /static/images/news/sources/bbc-news.png
+    category: News
+
+  - url: http://feeds.bbci.co.uk/news/world/rss.xml
+    name: BBC
+    image_path: /static/images/news/sources/bbc-news.png
+    category: World
+
+  - url: http://feeds.bbci.co.uk/news/business/rss.xml
+    name: BBC
+    image_path: /static/images/news/sources/bbc-news.png
+    category: Business
+
+  - url: http://feeds.bbci.co.uk/news/politics/rss.xml
+    name: BBC
+    image_path: /static/images/news/sources/bbc-news.png
+    category: Politics
+
+  - url: http://feeds.bbci.co.uk/news/science_and_environment/rss.xml
+    name: BBC
+    image_path: /static/images/news/sources/bbc-news.png
+    category: Science
+
+  - url: http://feeds.bbci.co.uk/news/technology/rss.xml
+    name: BBC
+    image_path: /static/images/news/sources/bbc-news.png
+    category: Technology
+
+  - url: http://feeds.bbci.co.uk/news/entertainment_and_arts/rss.xml
+    name: BBC
+    image_path: /static/images/news/sources/bbc-news.png
+    category: Entertainment
+
+  - url: http://rss.cnn.com/rss/edition.rss
+    name: CNN
+    image_path: /static/images/news/sources/cnn.png
+    category: News
+
+  - url: http://rss.cnn.com/rss/edition_world.rss
+    name: CNN
+    image_path: /static/images/news/sources/cnn.png
+    category: World
+
+  - url: http://rss.cnn.com/rss/edition_technology.rss
+    name: CNN
+    image_path: /static/images/news/sources/cnn.png
+    category: Technology
+
+  - url: http://rss.cnn.com/rss/edition_space.rss
+    name: CNN
+    image_path: /static/images/news/sources/cnn.png
+    category: Science
+
+  - url: http://rss.cnn.com/rss/edition_entertainment.rss
+    name: CNN
+    image_path: /static/images/news/sources/cnn.png
+    category: Entertainment
+
+  - url: http://rss.cnn.com/rss/money_news_international.rss
+    name: CNN
+    image_path: /static/images/news/sources/cnn.png
+    category: Business
+
+  - url: http://www.huffingtonpost.co.uk/feeds/verticals/uk-politics/index.xml
+    name: HuffPo
+    image_path: /static/images/news/sources/huffpo.png
+    category: Politics
+
+  - url: http://www.huffingtonpost.com/feeds/verticals/politics/index.xml
+    name: HuffPo
+    image_path: /static/images/news/sources/huffpo.png
+    category: Politics
+
+  - url: http://www.huffingtonpost.com/feeds/verticals/entertainment/index.xml
+    name: HuffPo
+    image_path: /static/images/news/sources/huffpo.png
+    category: Entertainment
+
+  - url: http://www.huffingtonpost.co.uk/feeds/verticals/uk-entertainment/index.xml
+    name: HuffPo
+    image_path: /static/images/news/sources/huffpo.png
+    category: Entertainment
+
+  - url: http://www.huffingtonpost.co.uk/feeds/verticals/uk/index.xml
+    name: HuffPo
+    image_path: /static/images/news/sources/huffpo.png
+    category: News
+
+  - url: http://www.huffingtonpost.com/feeds/verticals/money/index.xml
+    name: HuffPo
+    image_path: /static/images/news/sources/huffpo.png
+    category: Business
+
+  - url: http://www.huffingtonpost.co.uk/feeds/verticals/uk-tech/index.xml
+    name: HuffPo
+    image_path: /static/images/news/sources/huffpo.png
+    category: Technology
+
+  - url: http://www.huffingtonpost.com/feeds/verticals/technology/index.xml
+    name: HuffPo
+    image_path: /static/images/news/sources/huffpo.png
+    category: Technology
+
+  - url: http://www.huffingtonpost.com/feeds/verticals/world/index.xml
+    name: HuffPo
+    image_path: /static/images/news/sources/huffpo.png
+    category: World
+
+  - url: http://www.huffingtonpost.com/feeds/verticals/celebrity/index.xml
+    name: HuffPo
+    image_path: /static/images/news/sources/huffpo.png
+    category: Showbiz
+
+  - url: http://www.dailymail.co.uk/news/headlines/index.rss
+    name: Daily Mail
+    image_path: /static/images/news/sources/daily_mail.png
+    category: News
+
+  - url: http://www.dailymail.co.uk/news/index.rss
+    name: Daily Mail
+    image_path: /static/images/news/sources/daily_mail.png
+    category: News
+
+  - url: http://www.dailymail.co.uk/sciencetech/index.rss
+    name: Daily Mail
+    image_path: /static/images/news/sources/daily_mail.png
+    category: Science
+
+  - url: http://www.dailymail.co.uk/money/index.rss
+    name: Daily Mail
+    image_path: /static/images/news/sources/daily_mail.png
+    category: Business
+
+  - url: http://www.dailymail.co.uk/tvshowbiz/index.rss
+    name: Daily Mail
+    image_path: /static/images/news/sources/daily_mail.png
+    category: Showbiz

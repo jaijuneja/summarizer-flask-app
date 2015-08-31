@@ -4,7 +4,9 @@
 {% block content %}
     {% if source_url %}
         <div class="well">
-            View the original source of the summary <a href="{{ source_url }}">here</a>.
+            <a href="/news/source/{{ summary.news_source.slug }}"><button type="button" class="btn news-button {{ summary.news_source.slug }}">{{ summary.news_source.name }}</button></a>
+            <a href="/news/category/{{ summary.news_category.slug }}"><button type="button" class="btn news-button btn-default">{{ summary.news_category.name }}</button></a>
+            &nbsp; View the original article <a href="{{ source_url }}">here</a>.
         </div>
     {% endif %}
     <div class="panel panel-info">

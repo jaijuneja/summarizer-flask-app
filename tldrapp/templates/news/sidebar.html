@@ -1,0 +1,5 @@
+<div class="list-group sidebar-group">
+    {% for item in sidebar %}
+        <a href="/news/{{ item.url }}" class="list-group-item sidebar-item">{{ item.title }}</a>
+    {% endfor %}
+</div>

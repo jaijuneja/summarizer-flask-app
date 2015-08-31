@@ -60,14 +60,3 @@ def summary_entry(url_hash):
 @home.route('/about/')
 def about():
     return render_template('home/about.html')
-
-
-@home.route('/news_bot')
-def news_bot():
-    news_bot = NewsBot(
-        'http://feeds.bbci.co.uk/news/world/rss.xml',
-        'TextRank',
-        0.3
-    )
-    articles = news_bot.crawl(commit=True)
-    return

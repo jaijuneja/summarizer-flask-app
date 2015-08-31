@@ -16,13 +16,17 @@ class NewsSource(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(32))
+    slug = db.Column(db.String(32))
     feed_url = db.Column(db.String(80))
     image_path = db.Column(db.String(80))
 
-    def __init__(self, name, feed_url, image_path=''):
+    def __init__(self, name, image_path=''):
         self.name = name
-        self.feed_url = feed_url
-        self.image_path = image_path
+        self.slug = Tokenizer().strip_all_punctuation(name.lower()).replace(' ', '_')
+        if not image_path:
+            self.image_path = '/static/images/news/sources/{0}.png'.format(self.slug)
+        else:
+            self.image_path = image_path
 
     def __repr__(self):
         return '<NewsSource {0}>'.format(self.name)
@@ -32,9 +36,14 @@ class NewsCategory(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(32))
+    slug = db.Column(db.String(32))
 
     def __init__(self, name):
         self.name = name
+
+        tokenizer = Tokenizer()
+        slug = tokenizer.strip_all_punctuation(name.lower())
+        self.slug = slug.replace(' ', '_')
 
     def __repr__(self):
         return '<NewsCategory {0}>'.format(self.name)
@@ -43,6 +52,9 @@ class NewsCategory(db.Model):
 class NewsSummary(Summary):
     __searchable__ = ['bullets']
     __analyzer__ = SimpleAnalyzer()
+
+    __mapper_args__ = {'polymorphic_identity': 'newssummary',
+                       'inherit_condition': (id == Summary.id)}
 
     title = db.Column(db.String)
     pub_date = db.Column(db.DateTime)
@@ -75,8 +87,10 @@ class NewsSummary(Summary):
         self.news_source = news_source
         self.news_category = news_category
         self.pub_date = pub_date
-        self.image_path = image_path
-        # TODO: if no image path, use news source image, else some generic image defined in config
+        if image_path:
+            self.image_path = image_path
+        else:
+            self.image_path = news_source.image_path
 
     def __repr__(self):
         return '<NewsSummary {0}>'.format(self.title)

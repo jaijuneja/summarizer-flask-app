@@ -5,8 +5,10 @@ import os
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))  
 
 # Database settings
+
 SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(BASE_DIR, 'app.db')
 DATABASE_CONNECT_OPTIONS = {}
+SQLALCHEMY_ECHO = False
 
 # Whoosh settings
 WHOOSH_BASE = os.path.join(BASE_DIR, 'search.db')

@@ -1,15 +1,15 @@
 <div class="col-lg-12 js-infinite-item">
     <div class="panel panel-info">
         <div class="panel-heading">
-            <a href="{{ summary.url }}"><h1 class="panel-title">{{ summary.title }}</h1></a>
+            <a href="/news/{{ summary.url }}"><h1 class="panel-title">{{ summary.title }}</h1></a>
         </div>
         <div class="panel-news-source">
-            Source: {{ summary.news_source.name }}
+            <a href="/news/source/{{ summary.news_source.slug }}"><button type="button" class="btn news-button {{ summary.news_source.slug }}">{{ summary.news_source.name }}</button></a>
+            <a href="/news/category/{{ summary.news_category.slug }}"><button type="button" class="btn news-button btn-default">{{ summary.news_category.name }}</button></a>
         </div>
         <div class="panel-body">
             <div class="news-image"
                  style="background-image: url('{{ summary.image_path }}');">
-                <img src="{{ summary.image_path }}" class="news-image-hidden" />
              </div>
             <ul class="summary-list">
                 {% set counter = [0] %}

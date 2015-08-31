@@ -14,15 +14,19 @@ from ..models.news import NewsSummary, NewsSource, NewsCategory
 from ..helpers import check_create_dir
 from .. import db
 
+# TODO: Add a default image
+
 
 class NewsBot(object):
 
-    def __init__(self, url, summary_algorithm, summary_length, category=None):
+    def __init__(self, url, summary_algorithm, summary_length, category=None, site_name=None):
         feeds = self.get_feed_urls(url)
         if feeds:
             self.feed_urls = feeds
         else:
             self.feed_urls = [url]
+
+        self.site_name = 'None' if not site_name else site_name
 
         if not category:
             # The category is 'Uncategorized'
@@ -51,14 +55,19 @@ class NewsBot(object):
     def crawl(self, commit=False):
         for feed_url in self.feed_urls:
             feed = feedparser.parse(feed_url)
-            feed_name = feed.feed.title
-            print feed_name
+
+            print feed.feed.title
 
             if not feed.entries:
                 continue
 
             for entry in feed.entries:
                 title = entry.title
+
+                if title.lower().startswith('video:'):
+                    print "Skipping article '{0}' as it is a video".format(title)
+                    continue
+
                 url = entry.link.split('#')[0]
                 pub_date = datetime.fromtimestamp(mktime(entry.published_parsed)) if entry.published_parsed else None
 
@@ -88,8 +97,7 @@ class NewsBot(object):
                     bullets=bullets,
                     highlighted_text=highlighted_text,
                     summary_failed=summary_failed,
-                    feed_url=feed_url,
-                    news_source_name=feed_name,
+                    news_source_name=self.site_name,
                     news_category=self.category
                 )
 
@@ -106,7 +114,6 @@ class Article(object):
     def __init__(self,
                  title='',
                  source_url='',
-                 feed_url='',
                  news_source_name='',
                  news_category='',
                  pub_date=None,
@@ -117,7 +124,6 @@ class Article(object):
 
         self.title = title
         self.source_url = source_url
-        self.feed_url = feed_url
         self.news_source_name = news_source_name
         self.news_category = news_category
         self.pub_date = pub_date
@@ -130,13 +136,12 @@ class Article(object):
     def commit_to_db(self, database):
         if not self.summary_failed:
             # Check if news source exists
-            news_source_entry = NewsSource.query.filter_by(feed_url=self.feed_url).first()
+            news_source_entry = NewsSource.query.filter_by(name=self.news_source_name).first()
 
             if not news_source_entry:
                 # If the news source doesn't exist in db, create it
                 news_source_entry = NewsSource(
-                    name=self.news_source_name,
-                    feed_url=self.feed_url
+                    name=self.news_source_name
                 )
                 database.session.add(news_source_entry)
                 database.session.commit()
@@ -188,3 +193,6 @@ class Article(object):
 
             print "Committed '" + self.title + "' to db"
             return self.url
+
+        else:
+            print "Summary failed for '" + self.title

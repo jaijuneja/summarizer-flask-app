@@ -3,3 +3,5 @@
 venv
 app.db
 search.db
+tldrapp/static/images/news/*
+!tldrapp/static/images/news/sources/

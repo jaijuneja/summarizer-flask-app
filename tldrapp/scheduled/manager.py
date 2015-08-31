@@ -1,5 +1,11 @@
 # manage.py
 
+# To run in shell:
+# python -m tldrapp.scheduled.manager update_news
+
+import yaml
+import os
+
 from flask.ext.script import Manager
 
 from .. import app
@@ -10,14 +16,40 @@ from ..models.news import NewsSummary
 manager = Manager(app)
 
 
-@manager.option('-f', '--feed', dest='feed')
-def update_news(feed):
-    news_bot = NewsBot(
-        feed,
-        'TextRank',
-        0.3
-    )
-    articles = news_bot.crawl(commit=True)
+@manager.option('-f', '--feed', dest='feed', default='feeds.yaml')
+@manager.option('-c', '--category', dest='cat', default=None)
+@manager.option('-s', '--site', dest='site', default=None)
+def update_news(feed, cat, site):
+
+    this_dir = os.path.dirname(__file__)
+    feeds_path = os.path.join(this_dir, 'feeds.yaml')
+
+    if feed.endswith('.yaml'):
+        with open(feeds_path, 'r') as feeds_file:
+            feeds = yaml.load(feeds_file)
+
+            for xml_feed in feeds['feeds']:
+                news_bot = NewsBot(
+                    xml_feed['url'],
+                    'TextRank',
+                    0.3,
+                    category=xml_feed.get('category', None),
+                    site_name=xml_feed.get('name', None)
+                )
+                news_bot.crawl(commit=True)
+
+    elif feed.endswith('.xml'):
+        news_bot = NewsBot(
+            feed,
+            'TextRank',
+            0.3,
+            category=cat,
+            site_name=site
+        )
+        news_bot.crawl(commit=True)
+
+    else:
+        print('Input --feed should be a path to a .yaml or .xml')
 
 
 @manager.option('-i', '--inputarticles', dest='num_input_articles', default=500)
@@ -26,7 +58,7 @@ def rank_latest_news(num_input_articles, num_output_articles):
     articles = NewsSummary.query.order_by(NewsSummary.pub_date.desc()).limit(num_input_articles).all()
     article_titles = [article.title for article in articles]
 
-    print num_input_articles, num_output_articles
+    print len(articles)
 
     # Replace 'None' article titles with empty string
     for i, _ in enumerate(article_titles):

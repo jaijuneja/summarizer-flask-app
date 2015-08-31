@@ -1,5 +1,6 @@
 from flask import Flask, render_template
 from flask.ext.sqlalchemy import SQLAlchemy
+from cache import cache
 
 # Define the WSGI application object
 app = Flask(__name__)
@@ -10,6 +11,8 @@ app.config.from_object('config')
 # Database
 db = SQLAlchemy(app)
 
+# Cache
+cache.init_app(app)
 
 # Error handling
 @app.errorhandler(404)

@@ -14,6 +14,12 @@ class Summary(db.Model):
     source_url = db.Column(db.String(80))
     date_added = db.Column(db.DateTime)
     url = db.Column(db.String(80), unique=True)
+    type = db.Column('type', db.String(50))
+
+    # Set a discriminator so that summary items can be distinguished from
+    # items derived from subclasses in queries
+    __mapper_args__ = {'polymorphic_on': type,
+                       'polymorphic_identity': 'summary'}
 
     def __init__(self,
                  bullets,

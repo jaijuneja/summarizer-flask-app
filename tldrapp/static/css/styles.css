@@ -1,9 +1,5 @@
 .logo {
     height: 50px;
-    /*margin-right: 15px;*/
-}
-
-.navbar-brand {
     padding: 5px 15px 14px 15px;
 }
 
@@ -114,16 +110,70 @@ h3.share-link {
     overflow: hidden;
     margin-left: 15px;
     margin-bottom: 10px;
+    background-size: cover;
 }
 
-.news-image-portrait {
-    background-size: 80px auto;
+/* News source buttons */
+
+.news-button {
+    margin-top: 0;
+    margin-bottom: 0;
+    padding: 1px 6px;
 }
 
-.news-image-landscape {
-    background-size: auto 80px;
+.bbc {
+    color: #fff;
+    background-color: #b73634;
+    border-color: #931a18;
 }
 
-.news-image-hidden {
-    display: none;
+.bbc:hover {
+    color: #fff;
+    background-color: #931a18;
+}
+
+.cnn {
+    color: #b2000e;
+    background-color: #fff;
+    border-color: #b1b3b3;
+}
+
+.cnn:hover {
+    color: #b2000e;
+    background-color: #e2e2e2;
+}
+
+.huffpo {
+    color: #fff;
+    background-color: #008f59;
+    border-color: #00713f;
+}
+
+.huffpo:hover {
+    color: #fff;
+    background-color: #00713f;
+}
+
+.daily_mail {
+    color: #fff;
+    background-color: #0068a9;
+    border-color: #00466f;
+}
+
+.daily_mail:hover {
+    color: #fff;
+    background-color: #00466f;
+}
+
+/* Sidebar */
+.sidebar-group {
+    margin-bottom: 0;
+}
+
+.sidebar-item {
+    border: none;
+}
+
+.filter-news {
+    font-size: 16px;
 }
