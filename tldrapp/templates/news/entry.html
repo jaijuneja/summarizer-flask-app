@@ -13,9 +13,11 @@
         <div class="panel-heading">
             <h1 class="panel-title">Summary: {{ summary.title }}</h1>
         </div>
-        <div class="panel-news-source clearfix">
-            Published: {{ pretty_date(summary.pub_date) }}
-        </div>
+        {% if summary.pub_date %}
+            <div class="panel-news-source clearfix">
+                Published: {{ pretty_date(summary.pub_date) }}
+            </div>
+        {% endif %}
         <div class="panel-body">
             {% include 'includes/summary_composite.html' %}
         </div>
