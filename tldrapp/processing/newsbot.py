@@ -82,7 +82,12 @@ class NewsBot(object):
 
                 image_url = biggest_thumbnail['url'] if biggest_thumbnail else ''
 
-                summarizer = Summarizer(url, self.summary_algorithm, self.summary_length)
+                try:
+                    summarizer = Summarizer(url, self.summary_algorithm, self.summary_length)
+                except:
+                    print "Something went wrong with article '" + title + "'"
+                    continue
+
                 bullets = summarizer.bullets
                 highlighted_text = summarizer.highlighted_text
                 summary_failed = True if summarizer.error else False

@@ -4,5 +4,6 @@ venv
 app.db
 search.db
 dump.rdb
+errorlog
 tldrapp/static/images/news/*
 !tldrapp/static/images/news/sources/
