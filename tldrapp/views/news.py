@@ -14,7 +14,7 @@ def before_request():
     g.search_form = SearchForm()
 
 
-@cache.memoize()
+@cache.memoize(3600)
 @news.route('/')
 @news.route('/page/<int:page>')
 def index(page=1):
@@ -30,7 +30,7 @@ def index(page=1):
     return render_template(template, results=results, sidebar=sidebar, page=page, categories=categories, sources=sources)
 
 
-@cache.memoize()
+@cache.memoize(3600)
 @news.route('/category/<category>/')
 @news.route('/category/<category>/page/<int:page>')
 def category_page(category, page=1):
@@ -50,7 +50,7 @@ def category_page(category, page=1):
     return render_template(template, results=results, sidebar=sidebar, page=page, categories=categories, sources=sources)
 
 
-@cache.memoize()
+@cache.memoize(3600)
 @news.route('/source/<source>/')
 @news.route('/source/<source>/page/<int:page>')
 def source_page(source, page=1):
@@ -102,7 +102,7 @@ def search_results(query):
                            results=results)
 
 
-@cache.memoize()
+@cache.memoize(3600)
 def get_hot_sidebar(category_type, category_name, num_input_articles=500, num_output_articles=10):
     if category_type == 'category':
         articles = NewsSummary.query.join(NewsCategory)\
@@ -126,7 +126,7 @@ def get_hot_sidebar(category_type, category_name, num_input_articles=500, num_ou
     return [articles[i] for i in top_articles]
 
 
-@cache.memoize()
+@cache.memoize(3600)
 def get_bottom_nav():
     categories = NewsCategory.query.order_by(NewsCategory.name.asc()).all()
     sources = NewsSource.query.order_by(NewsSource.name.asc()).all()

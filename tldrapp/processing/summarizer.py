@@ -31,7 +31,10 @@ class Summarizer(object):
         self.error = None
         self.highlighted_text = None
 
-        text = parse_input(source)
+        text = parse_input(source, extractor='goose')
+
+        if not text:
+            text = parse_input(source, extractor='newspaper')
 
         if algorithm == 'Latent Semantic Analysis':
             summarizer = LsaSummarizer()
@@ -48,7 +51,7 @@ class Summarizer(object):
             self.highlighted_text = self.get_highlighted_text(text)
 
             if not self.bullets:
-                self.error = "The input text is too short to produce a summary. If you're submitting a link " \
+                self.error = "The input text is too short or could not be extracted. If you're submitting a link " \
                              "make sure that it starts with 'http://'. Otherwise, we recommend you copy and paste " \
                              "the text directly below."
 

@@ -165,6 +165,17 @@ h3.share-link {
     background-color: #00466f;
 }
 
+.ny_times {
+    color: #fff;
+    background-color: #494448;
+    border-color: #1a1319;
+}
+
+.ny_times:hover {
+    color: #fff;
+    background-color: #1a1319;
+}
+
 /* Sidebar */
 .sidebar-group {
     margin-bottom: 0;
@@ -176,4 +187,14 @@ h3.share-link {
 
 .filter-news {
     font-size: 16px;
+}
+
+/* General stuff */
+.float-left {
+    width: 50%;
+    float: left;
+}
+
+.pub-date {
+    text-align: right;
 }

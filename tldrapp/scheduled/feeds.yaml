@@ -138,3 +138,33 @@ feeds:
     name: Daily Mail
     image_path: /static/images/news/sources/daily_mail.png
     category: Showbiz
+
+  - url: http://rss.nytimes.com/services/xml/rss/nyt/Technology.xml
+    name: NY Times
+    image_path: /static/images/news/sources/ny_times.png
+    category: Technology
+
+  - url: http://rss.nytimes.com/services/xml/rss/nyt/Science.xml
+    name: NY Times
+    image_path: /static/images/news/sources/ny_times.png
+    category: Science
+
+  - url: http://rss.nytimes.com/services/xml/rss/nyt/Business.xml
+    name: NY Times
+    image_path: /static/images/news/sources/ny_times.png
+    category: Business
+
+  - url: http://rss.nytimes.com/services/xml/rss/nyt/InternationalBusiness.xml
+    name: NY Times
+    image_path: /static/images/news/sources/ny_times.png
+    category: Business
+
+  - url: http://www.nytimes.com/services/xml/rss/nyt/Economy.xml
+    name: NY Times
+    image_path: /static/images/news/sources/ny_times.png
+    category: Business
+
+  - url: http://rss.nytimes.com/services/xml/rss/nyt/World.xml
+    name: NY Times
+    image_path: /static/images/news/sources/ny_times.png
+    category: World

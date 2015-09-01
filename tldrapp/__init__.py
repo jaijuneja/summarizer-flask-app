@@ -1,6 +1,7 @@
 from flask import Flask, render_template
 from flask.ext.sqlalchemy import SQLAlchemy
 from cache import cache
+from helpers import pretty_date
 
 # Define the WSGI application object
 app = Flask(__name__)
@@ -18,6 +19,9 @@ cache.init_app(app)
 @app.errorhandler(404)
 def not_found(error):
     return render_template('errors/404.html'), 404
+
+# Add jinja helpers
+app.jinja_env.globals.update(pretty_date=pretty_date)
 
 from .views.home import home
 from .views.quickipedia import quickipedia

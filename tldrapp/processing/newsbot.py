@@ -14,8 +14,6 @@ from ..models.news import NewsSummary, NewsSource, NewsCategory
 from ..helpers import check_create_dir
 from .. import db
 
-# TODO: Add a default image
-
 
 class NewsBot(object):
 

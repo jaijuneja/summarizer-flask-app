@@ -3,9 +3,14 @@
         <div class="panel-heading">
             <a href="/news/{{ summary.url }}"><h1 class="panel-title">{{ summary.title }}</h1></a>
         </div>
-        <div class="panel-news-source">
-            <a href="/news/source/{{ summary.news_source.slug }}"><button type="button" class="btn news-button {{ summary.news_source.slug }}">{{ summary.news_source.name }}</button></a>
-            <a href="/news/category/{{ summary.news_category.slug }}"><button type="button" class="btn news-button btn-default">{{ summary.news_category.name }}</button></a>
+        <div class="panel-news-source clearfix">
+            <div class="float-left">
+                <a href="/news/source/{{ summary.news_source.slug }}"><button type="button" class="btn news-button {{ summary.news_source.slug }}">{{ summary.news_source.name }}</button></a>
+                <a href="/news/category/{{ summary.news_category.slug }}"><button type="button" class="btn news-button btn-default">{{ summary.news_category.name }}</button></a>
+            </div>
+            <div class="float-left pub-date">
+                {{ pretty_date(summary.pub_date) }}
+            </div>
         </div>
         <div class="panel-body">
             <div class="news-image"
