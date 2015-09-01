@@ -9,6 +9,13 @@ app = Flask(__name__)
 # Configurations
 app.config.from_object('config')
 
+if not app.debug:
+    import logging
+    from logging.handlers import RotatingFileHandler
+    file_handler = RotatingFileHandler('errorlog')
+    file_handler.setLevel(logging.WARNING)
+    app.logger.addHandler(file_handler)
+
 # Database
 db = SQLAlchemy(app)
 
